@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Lottotry.WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:Lottotry.WebApi.Controllers.v1.BC49Controller.AddBC49(Lottotry.WebApi.Dtos.BC49.BC49ForCreationDto)">
+            <summary>
+            Creates a new BC49 record.
+            </summary>
+            <response code="201">BC49 created.</response>
+            <response code="400">BC49 has missing/invalid values.</response>
+            <response code="500">There was an error on the server while creating the BC49.</response>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.BC49Controller.GetBC49(System.Int32)">
+            <summary>
+            Gets a single BC49 by ID.
+            </summary>
+            <response code="200">BC49 record returned successfully.</response>
+            <response code="400">BC49 has missing/invalid values.</response>
+            <response code="500">There was an error on the server while creating the BC49.</response>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.BC49Controller.GetBC49(Lottotry.WebApi.Dtos.BC49.BC49ParametersDto)">
+             <summary>
+             Gets a list of all BC49.
+             </summary>
+             <response code="200">BC49 list returned successfully.</response>
+             <response code="400">BC49 has missing/invalid values.</response>
+             <response code="500">There was an error on the server while creating the BC49.</response>
+             <remarks>
+             Requests can be narrowed down with a variety of query string values:
+             ## Query String Parameters
+             - **PageNumber**: An integer value that designates the page of records that should be returned.
+             - **PageSize**: An integer value that designates the number of records returned on the given page that you would like to return. This value is capped by the internal MaxPageSize.
+             - **SortOrder**: A comma delimited ordered list of property names to sort by. Adding a `-` before the name switches to sorting descendingly.
+             - **Filters**: A comma delimited list of fields to filter by formatted as `{Name}{Operator}{Value}` where
+                 - {Name} is the name of a filterable property. You can also have multiple names (for OR logic) by enclosing them in brackets and using a pipe delimiter, eg. `(LikeCount|CommentCount)>10` asks if LikeCount or CommentCount is >10
+                 - {Operator} is one of the Operators below
+                 - {Value} is the value to use for filtering. You can also have multiple values (for OR logic) by using a pipe delimiter, eg.`Title@= new|hot` will return posts with titles that contain the text "new" or "hot"
+            
+                | Operator | Meaning                       | Operator  | Meaning                                      |
+                | -------- | ----------------------------- | --------- | -------------------------------------------- |
+                | `==`     | Equals                        |  `!@=`    | Does not Contains                            |
+                | `!=`     | Not equals                    |  `!_=`    | Does not Starts with                         |
+                | `>`      | Greater than                  |  `@=*`    | Case-insensitive string Contains             |
+                | `&lt;`   | Less than                     |  `_=*`    | Case-insensitive string Starts with          |
+                | `>=`     | Greater than or equal to      |  `==*`    | Case-insensitive string Equals               |
+                | `&lt;=`  | Less than or equal to         |  `!=*`    | Case-insensitive string Not equals           |
+                | `@=`     | Contains                      |  `!@=*`   | Case-insensitive string does not Contains    |
+                | `_=`     | Starts with                   |  `!_=*`   | Case-insensitive string does not Starts with |
+             </remarks>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.BC49Controller.UpdateBC49(System.Int32,Lottotry.WebApi.Dtos.BC49.BC49ForUpdateDto)">
+            <summary>
+            Updates an entire existing BC49.
+            </summary>
+            <response code="204">BC49 updated.</response>
+            <response code="400">BC49 has missing/invalid values.</response>
+            <response code="500">There was an error on the server while creating the BC49.</response>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.BC49Controller.DeleteBC49(System.Int32)">
+            <summary>
+            Deletes an existing BC49 record.
+            </summary>
+            <response code="204">BC49 deleted.</response>
+            <response code="400">BC49 has missing/invalid values.</response>
+            <response code="500">There was an error on the server while creating the BC49.</response>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.Lotto649Controller.AddLotto649(Lottotry.WebApi.Dtos.Lotto649.Lotto649ForCreationDto)">
+            <summary>
+            Creates a new Lotto649 record.
+            </summary>
+            <response code="201">Lotto649 created.</response>
+            <response code="400">Lotto649 has missing/invalid values.</response>
+            <response code="500">There was an error on the server while creating the Lotto649.</response>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.Lotto649Controller.GetLotto649(System.Int32)">
+            <summary>
+            Gets a single Lotto649 by ID.
+            </summary>
+            <response code="200">Lotto649 record returned successfully.</response>
+            <response code="400">Lotto649 has missing/invalid values.</response>
+            <response code="500">There was an error on the server while creating the Lotto649.</response>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.Lotto649Controller.GetLotto649(Lottotry.WebApi.Dtos.Lotto649.Lotto649ParametersDto)">
+             <summary>
+             Gets a list of all Lotto649.
+             </summary>
+             <response code="200">Lotto649 list returned successfully.</response>
+             <response code="400">Lotto649 has missing/invalid values.</response>
+             <response code="500">There was an error on the server while creating the Lotto649.</response>
+             <remarks>
+             Requests can be narrowed down with a variety of query string values:
+             ## Query String Parameters
+             - **PageNumber**: An integer value that designates the page of records that should be returned.
+             - **PageSize**: An integer value that designates the number of records returned on the given page that you would like to return. This value is capped by the internal MaxPageSize.
+             - **SortOrder**: A comma delimited ordered list of property names to sort by. Adding a `-` before the name switches to sorting descendingly.
+             - **Filters**: A comma delimited list of fields to filter by formatted as `{Name}{Operator}{Value}` where
+                 - {Name} is the name of a filterable property. You can also have multiple names (for OR logic) by enclosing them in brackets and using a pipe delimiter, eg. `(LikeCount|CommentCount)>10` asks if LikeCount or CommentCount is >10
+                 - {Operator} is one of the Operators below
+                 - {Value} is the value to use for filtering. You can also have multiple values (for OR logic) by using a pipe delimiter, eg.`Title@= new|hot` will return posts with titles that contain the text "new" or "hot"
+            
+                | Operator | Meaning                       | Operator  | Meaning                                      |
+                | -------- | ----------------------------- | --------- | -------------------------------------------- |
+                | `==`     | Equals                        |  `!@=`    | Does not Contains                            |
+                | `!=`     | Not equals                    |  `!_=`    | Does not Starts with                         |
+                | `>`      | Greater than                  |  `@=*`    | Case-insensitive string Contains             |
+                | `&lt;`   | Less than                     |  `_=*`    | Case-insensitive string Starts with          |
+                | `>=`     | Greater than or equal to      |  `==*`    | Case-insensitive string Equals               |
+                | `&lt;=`  | Less than or equal to         |  `!=*`    | Case-insensitive string Not equals           |
+                | `@=`     | Contains                      |  `!@=*`   | Case-insensitive string does not Contains    |
+                | `_=`     | Starts with                   |  `!_=*`   | Case-insensitive string does not Starts with |
+             </remarks>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.Lotto649Controller.UpdateLotto649(System.Int32,Lottotry.WebApi.Dtos.Lotto649.Lotto649ForUpdateDto)">
+            <summary>
+            Updates an entire existing Lotto649.
+            </summary>
+            <response code="204">Lotto649 updated.</response>
+            <response code="400">Lotto649 has missing/invalid values.</response>
+            <response code="500">There was an error on the server while creating the Lotto649.</response>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.Lotto649Controller.DeleteLotto649(System.Int32)">
+            <summary>
+            Deletes an existing Lotto649 record.
+            </summary>
+            <response code="204">Lotto649 deleted.</response>
+            <response code="400">Lotto649 has missing/invalid values.</response>
+            <response code="500">There was an error on the server while creating the Lotto649.</response>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.LottoMaxController.AddLottoMax(Lottotry.WebApi.Dtos.LottoMax.LottoMaxForCreationDto)">
+            <summary>
+            Creates a new LottoMax record.
+            </summary>
+            <response code="201">LottoMax created.</response>
+            <response code="400">LottoMax has missing/invalid values.</response>
+            <response code="500">There was an error on the server while creating the LottoMax.</response>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.LottoMaxController.GetLottoMax(System.Int32)">
+            <summary>
+            Gets a single LottoMax by ID.
+            </summary>
+            <response code="200">LottoMax record returned successfully.</response>
+            <response code="400">LottoMax has missing/invalid values.</response>
+            <response code="500">There was an error on the server while creating the LottoMax.</response>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.LottoMaxController.GetLottoMax(Lottotry.WebApi.Dtos.LottoMax.LottoMaxParametersDto)">
+             <summary>
+             Gets a list of all LottoMax.
+             </summary>
+             <response code="200">LottoMax list returned successfully.</response>
+             <response code="400">LottoMax has missing/invalid values.</response>
+             <response code="500">There was an error on the server while creating the LottoMax.</response>
+             <remarks>
+             Requests can be narrowed down with a variety of query string values:
+             ## Query String Parameters
+             - **PageNumber**: An integer value that designates the page of records that should be returned.
+             - **PageSize**: An integer value that designates the number of records returned on the given page that you would like to return. This value is capped by the internal MaxPageSize.
+             - **SortOrder**: A comma delimited ordered list of property names to sort by. Adding a `-` before the name switches to sorting descendingly.
+             - **Filters**: A comma delimited list of fields to filter by formatted as `{Name}{Operator}{Value}` where
+                 - {Name} is the name of a filterable property. You can also have multiple names (for OR logic) by enclosing them in brackets and using a pipe delimiter, eg. `(LikeCount|CommentCount)>10` asks if LikeCount or CommentCount is >10
+                 - {Operator} is one of the Operators below
+                 - {Value} is the value to use for filtering. You can also have multiple values (for OR logic) by using a pipe delimiter, eg.`Title@= new|hot` will return posts with titles that contain the text "new" or "hot"
+            
+                | Operator | Meaning                       | Operator  | Meaning                                      |
+                | -------- | ----------------------------- | --------- | -------------------------------------------- |
+                | `==`     | Equals                        |  `!@=`    | Does not Contains                            |
+                | `!=`     | Not equals                    |  `!_=`    | Does not Starts with                         |
+                | `>`      | Greater than                  |  `@=*`    | Case-insensitive string Contains             |
+                | `&lt;`   | Less than                     |  `_=*`    | Case-insensitive string Starts with          |
+                | `>=`     | Greater than or equal to      |  `==*`    | Case-insensitive string Equals               |
+                | `&lt;=`  | Less than or equal to         |  `!=*`    | Case-insensitive string Not equals           |
+                | `@=`     | Contains                      |  `!@=*`   | Case-insensitive string does not Contains    |
+                | `_=`     | Starts with                   |  `!_=*`   | Case-insensitive string does not Starts with |
+             </remarks>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.LottoMaxController.UpdateLottoMax(System.Int32,Lottotry.WebApi.Dtos.LottoMax.LottoMaxForUpdateDto)">
+            <summary>
+            Updates an entire existing LottoMax.
+            </summary>
+            <response code="204">LottoMax updated.</response>
+            <response code="400">LottoMax has missing/invalid values.</response>
+            <response code="500">There was an error on the server while creating the LottoMax.</response>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.LottoMaxController.DeleteLottoMax(System.Int32)">
+            <summary>
+            Deletes an existing LottoMax record.
+            </summary>
+            <response code="204">LottoMax deleted.</response>
+            <response code="400">LottoMax has missing/invalid values.</response>
+            <response code="500">There was an error on the server while creating the LottoMax.</response>
+        </member>
+    </members>
+</doc>
