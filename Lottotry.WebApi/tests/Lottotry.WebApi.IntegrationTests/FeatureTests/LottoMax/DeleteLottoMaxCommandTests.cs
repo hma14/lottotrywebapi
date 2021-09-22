@@ -25,10 +25,10 @@ namespace Lottotry.WebApi.IntegrationTests.FeatureTests.LottoMax
             // Act
             var command = new DeleteLottoMax.DeleteLottoMaxCommand(drawNumber);
             await SendAsync(command);
-            var lottoMax = await ExecuteDbContextAsync(db => db.LottoMax.ToListAsync());
+            var lotto = await ExecuteDbContextAsync(db => db.LottoMax.ToListAsync());
 
             // Assert
-            lottoMax.Count.Should().Be(0);
+            lotto.Count.Should().Be(0);
         }
 
         [Test]

@@ -9,6 +9,10 @@ namespace Lottotry.WebApi
     using Lottotry.WebApi.Extensions.Services;
     using Lottotry.WebApi.Extensions.Application;
     using Serilog;
+    using Microsoft.AspNetCore.DataProtection;
+    using System.IO;
+    using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
+    using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 
     public class StartupDevelopment
     {
@@ -33,6 +37,15 @@ namespace Lottotry.WebApi
             services.AddWebApiServices();
             services.AddHealthChecks();
 
+            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(@"D:\lottotry_new\temp-keys\"))
+                .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration()
+                {
+                    EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
+                    ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
+                });
+
+            //services.AddDataProtection().DisableAutomaticKeyGeneration();
+
             // Dynamic Services
             services.AddSwaggerExtension(_config);
         }
@@ -53,7 +66,8 @@ namespace Lottotry.WebApi
                 // LottotryDbContext Seeders
 
                     BC49Seeder.SeedSampleBC49Data(app.ApplicationServices.GetService<LottotryDbContext>());
-                    Lotto649Seeder.SeedSampleLotto649Data(app.ApplicationServices.GetService<LottotryDbContext>());                    LottoMaxSeeder.SeedSampleLottoMaxData(app.ApplicationServices.GetService<LottotryDbContext>());
+                    Lotto649Seeder.SeedSampleLotto649Data(app.ApplicationServices.GetService<LottotryDbContext>());                    
+                    LottoMaxSeeder.SeedSampleLottoMaxData(app.ApplicationServices.GetService<LottotryDbContext>());
             }
 
 

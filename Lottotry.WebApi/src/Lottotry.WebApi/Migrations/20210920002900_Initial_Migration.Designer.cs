@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lottotry.WebApi.Migrations
 {
     [DbContext(typeof(LottotryDbContext))]
-    [Migration("20210919220317_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20210920002900_Initial_Migration")]
+    partial class Initial_Migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

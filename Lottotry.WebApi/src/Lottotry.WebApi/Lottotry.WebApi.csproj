@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
+    <UserSecretsId>37eba913-752d-46b7-baeb-ff4c48c92b4e</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -12,6 +15,12 @@
     <DocumentationFile>Lottotry.WebApi.WebApi.xml</DocumentationFile>
     <NoWarn>1701;1702;1591;</NoWarn>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations_bak\**" />
+    <Content Remove="Migrations_bak\**" />
+    <EmbeddedResource Remove="Migrations_bak\**" />
+    <None Remove="Migrations_bak\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoBogus" Version="2.13.0" />
@@ -34,6 +43,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
 
     <PackageReference Include="Sieve" Version="2.4.1" />

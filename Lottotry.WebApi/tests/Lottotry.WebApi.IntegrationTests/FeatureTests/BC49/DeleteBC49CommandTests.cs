@@ -25,10 +25,10 @@ namespace Lottotry.WebApi.IntegrationTests.FeatureTests.BC49
             // Act
             var command = new DeleteBC49.DeleteBC49Command(drawNumber);
             await SendAsync(command);
-            var bC49 = await ExecuteDbContextAsync(db => db.BC49.ToListAsync());
+            var lotto = await ExecuteDbContextAsync(db => db.BC49.ToListAsync());
 
             // Assert
-            bC49.Count.Should().Be(0);
+            lotto.Count.Should().Be(0);
         }
 
         [Test]
