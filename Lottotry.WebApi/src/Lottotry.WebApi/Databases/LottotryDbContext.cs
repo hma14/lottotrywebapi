@@ -24,6 +24,7 @@ namespace Lottotry.WebApi.Databases
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
         }
     }
 }
