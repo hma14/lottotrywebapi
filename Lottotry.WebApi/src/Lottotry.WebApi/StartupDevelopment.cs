@@ -13,6 +13,8 @@ namespace Lottotry.WebApi
     using System.IO;
     using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
     using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+    using Microsoft.OpenApi.Models;
+    using System;
 
     public class StartupDevelopment
     {
@@ -44,7 +46,25 @@ namespace Lottotry.WebApi
                     ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
                 });
 
-            //services.AddDataProtection().DisableAutomaticKeyGeneration();
+            //services.AddSwaggerGen(config =>
+            //{
+            //    config.SwaggerDoc(
+            //        "v1",
+            //        new OpenApiInfo
+            //        {
+            //            Version = "v1",
+            //            Title = "Lottotry API for Lottotry Service Microservice",
+            //            Description = "Our API uses a REST based design, leverages the JSON data format, and relies upon HTTP for transport. We respond with meaningful HTTP response codes and if an error occurs, we include error details in the response body.",
+            //            Contact = new OpenApiContact
+            //            {
+            //                Name = "Lottotry Team",
+            //                Email = "lottotry_lotto@gmail.com",
+            //                Url = new Uri("http://www.lottotry.com"),
+            //            },
+            //        });
+
+            //    //config.IncludeXmlComments(string.Format(@$"{AppDomain.CurrentDomain.BaseDirectory}{Path.DirectorySeparatorChar}Lottotry.WebApi.WebApi.xml"));
+            //});
 
             // Dynamic Services
             services.AddSwaggerExtension(_config);
