@@ -2,7 +2,7 @@ namespace Lottotry.WebApi.Dtos.Shared
 {
     public abstract class BasePaginationParameters
     {
-        internal virtual int MaxPageSize { get; } = 20;
+        internal virtual int MaxPageSize { get; } = 50;
         internal virtual int DefaultPageSize { get; set; } = 10;
 
         public virtual int PageNumber { get; set; } = 1;

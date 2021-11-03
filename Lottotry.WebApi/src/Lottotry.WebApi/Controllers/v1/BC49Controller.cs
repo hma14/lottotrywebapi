@@ -107,7 +107,7 @@ namespace Lottotry.WebApi.Controllers.v1
         [Consumes("application/json")]
         [Produces("application/json")]
         [HttpGet(Name = "GetBC49List")]
-        public async Task<IActionResult> GetBC49([FromQuery] BC49ParametersDto bC49ParametersDto)
+        public async Task<ActionResult<BC49Dto>> GetBC49([FromQuery] BC49ParametersDto bC49ParametersDto)
         {
             var query = new GetBC49List.BC49ListQuery(bC49ParametersDto);
             var queryResponse = await _mediator.Send(query);
@@ -127,6 +127,8 @@ namespace Lottotry.WebApi.Controllers.v1
 
             Response.Headers.Add("X-Pagination",
                 JsonSerializer.Serialize(paginationMetadata));
+
+            //return queryResponse;
 
             var response = new Response<IEnumerable<BC49Dto>>(queryResponse);
             return Ok(response);
