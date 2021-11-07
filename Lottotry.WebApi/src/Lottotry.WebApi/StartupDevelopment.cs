@@ -84,6 +84,8 @@ namespace Lottotry.WebApi
                 context.Database.EnsureCreated();
 
                 // LottotryDbContext Seeders
+                    LottoNumbersSeeder.SeedSampleLottoNumbersData(app.ApplicationServices.GetService<LottotryDbContext>());
+
 
                     BC49Seeder.SeedSampleBC49Data(app.ApplicationServices.GetService<LottotryDbContext>());
                     Lotto649Seeder.SeedSampleLotto649Data(app.ApplicationServices.GetService<LottotryDbContext>());                    

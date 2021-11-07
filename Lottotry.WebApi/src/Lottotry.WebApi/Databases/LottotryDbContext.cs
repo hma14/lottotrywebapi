@@ -3,6 +3,7 @@ namespace Lottotry.WebApi.Databases
     using Lottotry.WebApi.Domain.BC49;
     using Lottotry.WebApi.Domain.Lotto649;
     using Lottotry.WebApi.Domain.LottoMax;
+    using Lottotry.WebApi.Domain.LottoNumbers;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
     using System.Threading;
@@ -16,6 +17,7 @@ namespace Lottotry.WebApi.Databases
         }
 
         #region DbSet Region - Do Not Delete
+        public DbSet<LottoNumbers> LottoNumbers { get; set; }
 
         public DbSet<BC49> BC49 { get; set; }
         public DbSet<Lotto649> Lotto649 { get; set; }
@@ -24,7 +26,7 @@ namespace Lottotry.WebApi.Databases
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<LottoNumbers>().HasKey(vf => new { vf.LottoName, vf.DrawNumber });
         }
     }
 }

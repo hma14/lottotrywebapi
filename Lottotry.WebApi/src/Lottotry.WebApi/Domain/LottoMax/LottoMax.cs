@@ -11,6 +11,7 @@ namespace Lottotry.WebApi.Domain.LottoMax
         [Key]
         [Required]
         [Sieve(CanFilter = true, CanSort = false)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int DrawNumber { get; set; }
 
         [Required]
