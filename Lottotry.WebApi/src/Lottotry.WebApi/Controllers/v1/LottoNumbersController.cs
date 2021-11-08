@@ -12,6 +12,7 @@ namespace Lottotry.WebApi.Controllers.v1
     using System.Threading.Tasks;
     using System.Threading;
     using MediatR;
+    using Lottotry.WebApi.Dtos;
 
     [ApiController]
     [Route("api/lottonumbers")]
@@ -101,7 +102,7 @@ namespace Lottotry.WebApi.Controllers.v1
         ///    | `@=`     | Contains                      |  `!@=*`   | Case-insensitive string does not Contains    |
         ///    | `_=`     | Starts with                   |  `!_=*`   | Case-insensitive string does not Starts with |
         /// </remarks>
-        [ProducesResponseType(typeof(Response<IEnumerable<LottoNumbersDto>>), 200)]
+        [ProducesResponseType(typeof(Response<IEnumerable<LottoNumbersResponseDto>>), 200)]
         [ProducesResponseType(typeof(Response<>), 400)]
         [ProducesResponseType(500)]
         [Consumes("application/json")]
@@ -128,7 +129,8 @@ namespace Lottotry.WebApi.Controllers.v1
             Response.Headers.Add("X-Pagination",
                 JsonSerializer.Serialize(paginationMetadata));
 
-            var response = new Response<IEnumerable<LottoNumbersDto>>(queryResponse);
+            var response = new Response<IEnumerable<LottoNumbersResponseDto>>(queryResponse);
+
             return Ok(response);
         }
 

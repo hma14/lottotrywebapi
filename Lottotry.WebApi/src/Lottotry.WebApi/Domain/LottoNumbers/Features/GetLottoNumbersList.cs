@@ -15,10 +15,12 @@ namespace Lottotry.WebApi.Domain.LottoNumbers.Features
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Lottotry.WebApi.Dtos;
+    using Microsoft.EntityFrameworkCore;
 
     public static class GetLottoNumbersList
     {
-        public class LottoNumbersListQuery : IRequest<PagedList<LottoNumbersDto>>
+        public class LottoNumbersListQuery : IRequest<PagedList<LottoNumbersResponseDto>>
         {
             public LottoNumbersParametersDto QueryParameters { get; set; }
 
@@ -28,7 +30,7 @@ namespace Lottotry.WebApi.Domain.LottoNumbers.Features
             }
         }
 
-        public class Handler : IRequestHandler<LottoNumbersListQuery, PagedList<LottoNumbersDto>>
+        public class Handler : IRequestHandler<LottoNumbersListQuery, PagedList<LottoNumbersResponseDto>>
         {
             private readonly LottotryDbContext _db;
             private readonly SieveProcessor _sieveProcessor;
@@ -41,7 +43,7 @@ namespace Lottotry.WebApi.Domain.LottoNumbers.Features
                 _sieveProcessor = sieveProcessor;
             }
 
-            public async Task<PagedList<LottoNumbersDto>> Handle(LottoNumbersListQuery request, CancellationToken cancellationToken)
+            public async Task<PagedList<LottoNumbersResponseDto>> Handle(LottoNumbersListQuery request, CancellationToken cancellationToken)
             {
                 if (request.QueryParameters == null)
                     throw new ApiException("Invalid query parameters.");
@@ -59,9 +61,22 @@ namespace Lottotry.WebApi.Domain.LottoNumbers.Features
                 var dtoCollection = appliedCollection
                     .ProjectTo<LottoNumbersDto>(_mapper.ConfigurationProvider);
 
-                return await PagedList<LottoNumbersDto>.CreateAsync(dtoCollection,
-                    request.QueryParameters.PageNumber,
-                    request.QueryParameters.PageSize);
+
+                // my changes
+
+                List<LottoNumbersResponseDto> list = new ();
+
+                foreach(var x in dtoCollection)
+                {
+                    var item = new LottoNumbersResponseDto
+                    {
+                        DrawNumber = x.DrawNumber,
+                        DrawDate = x.DrawDate,
+                        Numbers = dtoCollection.Where(g => g.DrawNumber == x.DrawNumber).Select(y => y).ToArray(),
+                    };
+                    list.Add(item);
+                }
+                return await Task.FromResult(PagedList<LottoNumbersResponseDto>.Create(list.AsQueryable(), request.QueryParameters.PageNumber, request.QueryParameters.PageSize));
             }
         }
     }
