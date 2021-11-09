@@ -9,6 +9,7 @@ namespace Lottotry.WebApi.Domain.LottoNumbers.Mappings
         public LottoNumbersProfile()
         {
             //createmap<to this, from this>
+            CreateMap<LottoNumbers, LottoNumbersDto>();
             CreateMap<LottoNumbers, LottoNumbersDto>()
                 .ReverseMap();
             CreateMap<LottoNumbersForCreationDto, LottoNumbers>();

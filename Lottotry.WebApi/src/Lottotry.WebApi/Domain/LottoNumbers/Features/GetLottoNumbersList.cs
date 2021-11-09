@@ -51,32 +51,38 @@ namespace Lottotry.WebApi.Domain.LottoNumbers.Features
                 var collection = _db.LottoNumbers.Where(x => x.LottoName == (int) request.QueryParameters.LottoName)
                     as IQueryable<LottoNumbers>;
 
+
+                // my changes
+                List<LottoNumbersResponseDto> list = new();
+                var drawNumbers = collection.GroupBy(x => x.DrawNumber).Select(g => g.Key).AsEnumerable();
+                List<int> drawList = drawNumbers.ToList();
+
+                foreach (var dn in drawList)
+                {
+                    List<LottoNumbersDto> tmp = new();
+                    collection.ProjectTo<LottoNumbersDto>(_mapper.ConfigurationProvider).Where(x => x.DrawNumber == dn).ToList().All(y => { tmp.Add(y); return true; });
+
+                    var item = new LottoNumbersResponseDto
+                    {
+                        DrawNumber = tmp.First().DrawNumber,
+                        DrawDate = tmp.First().DrawDate,
+                        Numbers = tmp,
+                    };
+                    list.Add(item);
+                }
+
+
                 var sieveModel = new SieveModel
                 {
                     Sorts = request.QueryParameters.SortOrder ?? "LottoName",
                     Filters = request.QueryParameters.Filters
                 };
 
-                var appliedCollection = _sieveProcessor.Apply(sieveModel, collection);
-                var dtoCollection = appliedCollection
-                    .ProjectTo<LottoNumbersDto>(_mapper.ConfigurationProvider);
+                var dtoCollection = _sieveProcessor.Apply(sieveModel, list.AsQueryable());
 
-
-                // my changes
-
-                List<LottoNumbersResponseDto> list = new ();
-
-                foreach(var x in dtoCollection)
-                {
-                    var item = new LottoNumbersResponseDto
-                    {
-                        DrawNumber = x.DrawNumber,
-                        DrawDate = x.DrawDate,
-                        Numbers = dtoCollection.Where(g => g.DrawNumber == x.DrawNumber).Select(y => y).ToArray(),
-                    };
-                    list.Add(item);
-                }
-                return await Task.FromResult(PagedList<LottoNumbersResponseDto>.Create(list.AsQueryable(), request.QueryParameters.PageNumber, request.QueryParameters.PageSize));
+                // sort always by DrawNumber Descending
+                return await Task.FromResult(PagedList<LottoNumbersResponseDto>
+                    .Create(dtoCollection.OrderByDescending(x => x.DrawNumber), request.QueryParameters.PageNumber, request.QueryParameters.PageSize));
             }
         }
     }

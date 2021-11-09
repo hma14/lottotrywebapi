@@ -11,7 +11,8 @@ namespace Lottotry.WebApi.Dtos
         public int DrawNumber { get; set; }
         public DateTime DrawDate { get; set; }
 
-        public LottoNumbersDto[] Numbers { get; set; }
-         
+        //public LottoNumbersDto[] Numbers { get; set; }
+        public List<LottoNumbersDto> Numbers { get; set; }
+
     }
 }
