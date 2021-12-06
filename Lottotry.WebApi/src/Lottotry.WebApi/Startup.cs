@@ -38,12 +38,12 @@ namespace Lottotry.WebApi
             services.AddHealthChecks();
 
 
-            //services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(@"C:\temp-keys\"))
-            //    .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration()
-            //    {
-            //        EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
-            //        ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
-            //    });
+            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(@"C:\temp-keys\"))
+                .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration()
+                {
+                    EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
+                    ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
+                });
 
             //services.AddDataProtection().DisableAutomaticKeyGeneration();
 

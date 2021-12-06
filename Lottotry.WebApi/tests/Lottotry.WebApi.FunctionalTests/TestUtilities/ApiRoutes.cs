@@ -7,6 +7,28 @@ namespace Lottotry.WebApi.FunctionalTests.TestUtilities
 
         // new api route marker - do not delete
 
+public static class Numbers
+    {
+        public const string Id = "{id}";
+        public const string GetList = $"{Base}/numbers";
+        public const string GetRecord = $"{Base}/numbers/{Id}";
+        public const string Create = $"{Base}/numbers";
+        public const string Delete = $"{Base}/numbers/{Id}";
+        public const string Put = $"{Base}/numbers/{Id}";
+        public const string Patch = $"{Base}/numbers/{Id}";
+    }
+
+public static class LottoTypes
+    {
+        public const string Id = "{id}";
+        public const string GetList = $"{Base}/lottoTypes";
+        public const string GetRecord = $"{Base}/lottoTypes/{Id}";
+        public const string Create = $"{Base}/lottoTypes";
+        public const string Delete = $"{Base}/lottoTypes/{Id}";
+        public const string Put = $"{Base}/lottoTypes/{Id}";
+        public const string Patch = $"{Base}/lottoTypes/{Id}";
+    }
+
         public static class LottoNumbers
         {
             public const string LottoName = "{lottoName}";

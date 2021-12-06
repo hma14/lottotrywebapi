@@ -39,7 +39,7 @@ namespace Lottotry.WebApi.Wrappers
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
 
-        public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
+        public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize, System.Threading.CancellationToken cancellationToken)
         {
             var count = source.Count();
             var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();

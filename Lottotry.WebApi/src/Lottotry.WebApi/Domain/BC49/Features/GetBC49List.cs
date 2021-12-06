@@ -61,7 +61,8 @@ namespace Lottotry.WebApi.Domain.BC49.Features
 
                 return await PagedList<BC49Dto>.CreateAsync(dtoCollection,
                     request.QueryParameters.PageNumber,
-                    request.QueryParameters.PageSize);
+                    request.QueryParameters.PageSize,
+                    cancellationToken);
             }
         }
     }

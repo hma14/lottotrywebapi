@@ -4,6 +4,8 @@ namespace Lottotry.WebApi.Databases
     using Lottotry.WebApi.Domain.Lotto649;
     using Lottotry.WebApi.Domain.LottoMax;
     using Lottotry.WebApi.Domain.LottoNumbers;
+using Lottotry.WebApi.Domain.LottoTypes;
+using Lottotry.WebApi.Domain.Numbers;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
     using System.Threading;
@@ -17,6 +19,8 @@ namespace Lottotry.WebApi.Databases
         }
 
         #region DbSet Region - Do Not Delete
+        public DbSet<Number> Numbers { get; set; }
+        public DbSet<LottoType> LottoTypes { get; set; }
         public DbSet<LottoNumbers> LottoNumbers { get; set; }
 
         public DbSet<BC49> BC49 { get; set; }

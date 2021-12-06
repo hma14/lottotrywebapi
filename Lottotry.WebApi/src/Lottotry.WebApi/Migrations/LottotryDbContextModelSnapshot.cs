@@ -157,6 +157,77 @@ namespace Lottotry.WebApi.Migrations
 
                     b.ToTable("LottoNumbers");
                 });
+
+            modelBuilder.Entity("Lottotry.WebApi.Domain.LottoTypes.LottoType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DrawDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DrawNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LottoName")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberRange")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LottoTypes");
+                });
+
+            modelBuilder.Entity("Lottotry.WebApi.Domain.Numbers.Number", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Distance")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsBonusNumber")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsHit")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("LottoTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("NumberofDrawsWhenHit")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalHits")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LottoTypeId");
+
+                    b.ToTable("Numbers");
+                });
+
+            modelBuilder.Entity("Lottotry.WebApi.Domain.Numbers.Number", b =>
+                {
+                    b.HasOne("Lottotry.WebApi.Domain.LottoTypes.LottoType", "LottoType")
+                        .WithMany("Numbers")
+                        .HasForeignKey("LottoTypeId");
+
+                    b.Navigation("LottoType");
+                });
+
+            modelBuilder.Entity("Lottotry.WebApi.Domain.LottoTypes.LottoType", b =>
+                {
+                    b.Navigation("Numbers");
+                });
 #pragma warning restore 612, 618
         }
     }

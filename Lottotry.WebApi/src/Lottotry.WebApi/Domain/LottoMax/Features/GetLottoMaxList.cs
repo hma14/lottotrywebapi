@@ -61,7 +61,8 @@ namespace Lottotry.WebApi.Domain.LottoMax.Features
 
                 return await PagedList<LottoMaxDto>.CreateAsync(dtoCollection,
                     request.QueryParameters.PageNumber,
-                    request.QueryParameters.PageSize);
+                    request.QueryParameters.PageSize,
+                    cancellationToken);
             }
         }
     }

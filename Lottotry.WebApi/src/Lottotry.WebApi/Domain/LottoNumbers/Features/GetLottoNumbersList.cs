@@ -82,7 +82,9 @@ namespace Lottotry.WebApi.Domain.LottoNumbers.Features
 
                 // sort always by DrawNumber Descending
                 return await Task.FromResult(PagedList<LottoNumbersResponseDto>
-                    .Create(dtoCollection.OrderByDescending(x => x.DrawNumber), request.QueryParameters.PageNumber, request.QueryParameters.PageSize));
+                    .Create(dtoCollection.OrderByDescending(x => x.DrawNumber), 
+                            request.QueryParameters.PageNumber, 
+                            request.QueryParameters.PageSize));
             }
         }
     }

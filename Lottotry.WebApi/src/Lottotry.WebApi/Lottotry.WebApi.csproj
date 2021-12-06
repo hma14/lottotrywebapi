@@ -21,12 +21,16 @@
     <EmbeddedResource Remove="Migrations_bak\**" />
     <None Remove="Migrations_bak\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20211107204011_Add_Table_LottoNumbers.Designer.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoBogus" Version="2.13.0" />
     <PackageReference Include="Bogus" Version="33.0.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="EntityFrameworkCore.Exceptions.Common" Version="3.1.4" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.1.0" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
@@ -56,6 +60,8 @@
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="5.0.1" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
   </ItemGroup>
 
 </Project>
