@@ -40,7 +40,6 @@ namespace Lottotry.WebApi.Domain.LottoTypes.Features
                 _db = db;
                 _sieveProcessor = sieveProcessor;
             }
-#if true
 
             public async Task<PagedList<LottoTypeDto>> Handle(LottoTypeListQuery request, CancellationToken cancellationToken)
             {
@@ -62,55 +61,6 @@ namespace Lottotry.WebApi.Domain.LottoTypes.Features
                                                                     request.QueryParameters.PageSize,
                                                                     cancellationToken);
             }
-#else
-            public async Task<PagedList<LottoTypeDto>> Handle(LottoTypeListQuery request, CancellationToken cancellationToken)
-            {
-                if (request.QueryParameters == null)
-                    throw new ApiException("Invalid query parameters.");
-
-                var collection = _db.LottoTypes.Where(x => x.LottoName == (int)request.QueryParameters.LottoName)
-                    as IQueryable<LottoType>;
-
-
-                // my changes
-                List<LottoTypeDto> list = new();
-                var drawNumbers = collection.GroupBy(x => x.DrawNumber).Select(g => g.Key).AsEnumerable();
-                List<int> drawList = drawNumbers.ToList();
-
-                foreach (var dn in drawList)
-                {
-                    List<LottoTypeDto> tmp = new();
-                    collection.ProjectTo<LottoTypeDto>(_mapper.ConfigurationProvider).Where(x => x.DrawNumber == dn).ToList().All(y => { tmp.Add(y); return true; });
-
-                    var item = new LottoTypeDto
-                    {
-                        Id = tmp.First().Id,
-                        LottoName = tmp.First().LottoName,
-                        DrawNumber = tmp.First().DrawNumber,
-                        DrawDate = tmp.First().DrawDate,
-                        NumberRange = tmp.First().NumberRange,
-                        Numbers = tmp.First().Numbers.OrderBy(x => x.Value).ToList(),
-                    };
-                    list.Add(item);
-                }
-
-
-                var sieveModel = new SieveModel
-                {
-                    Sorts = request.QueryParameters.SortOrder ?? "LottoName",
-                    Filters = request.QueryParameters.Filters
-                };
-
-                var dtoCollection = _sieveProcessor.Apply(sieveModel, list.AsQueryable());
-
-                // sort always by DrawNumber Descending
-                return await Task.FromResult(PagedList<LottoTypeDto>
-                    .Create(dtoCollection.OrderByDescending(x => x.DrawNumber),
-                            request.QueryParameters.PageNumber,
-                            request.QueryParameters.PageSize));
-            }
-
-#endif
 
         }
     }
