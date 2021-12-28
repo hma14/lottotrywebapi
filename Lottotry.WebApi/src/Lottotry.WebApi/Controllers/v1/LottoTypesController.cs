@@ -99,7 +99,7 @@ namespace Lottotry.WebApi.Controllers
             return Ok(response);
         }
 
-#if true
+
 
         /// <summary>
         /// Analysize a number for potential next hit
@@ -147,27 +147,29 @@ namespace Lottotry.WebApi.Controllers
             };
             var query = new GetLottoTypeList.LottoTypeListQuery(lottoTypeParametersDto);
             var queryResponse = await _mediator.Send(query);
+            IEnumerable<LottoTypeDto> newList = queryResponse; // new List<LottoTypeDto>();
 
             var lastDraw = queryResponse.First();
             if (drawNumber != null)
             {
-                lastDraw = queryResponse.Where(x => x.DrawNumber == drawNumber.Value).FirstOrDefault();
+                newList = queryResponse.Skip(queryResponse.First().DrawNumber - drawNumber.Value);
+                lastDraw = newList.First();
             }
             var numbers  = lastDraw.Numbers.OrderBy(x => x.Value).ToList();
             foreach (var num in numbers)
             {
-                num.IsNextPotentialHit = AnalysisNumber(queryResponse, num.Value);
+                num.IsNextPotentialHit = AnalysisNumber(newList, num.Value);
             }
 
             return lastDraw; 
         }
 
 
-        private bool AnalysisNumber(PagedList<LottoTypeDto> queryResponse, int targetNumber)
+        private bool AnalysisNumber(IEnumerable<LottoTypeDto> newList, int targetNumber)
         {
-            List<NumberDto> targetNumberList = new List<NumberDto>(); 
+            List<NumberDto> targetNumberList = new List<NumberDto>();
 
-            var numbers = queryResponse.Select(x => x.Numbers);
+            var numbers = newList.Select(x => x.Numbers);
             foreach (var num in numbers)
             {
                 var arr = num.OrderBy(x => x.Value).ToArray();
@@ -190,7 +192,6 @@ namespace Lottotry.WebApi.Controllers
             return (isHot);
         }
 
-#endif
 
         /// <summary>
         /// Gets a list of all LottoTypes.
