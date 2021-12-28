@@ -5,6 +5,7 @@ namespace Lottotry.WebApi.Dtos.LottoType
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using Lottotry.WebApi.Domain.Numbers;
+    using Lottotry.WebApi.Dtos.Number;
 
     public class LottoTypeDto
     {
@@ -13,6 +14,7 @@ namespace Lottotry.WebApi.Dtos.LottoType
         public int DrawNumber { get; set; }
         public DateTime DrawDate { get; set; }
         public int NumberRange { get; set; }
-        public ICollection<Number> Numbers { get; set; }
+        public List<NumberDto> Numbers { get; set; }
+        
     }
 }

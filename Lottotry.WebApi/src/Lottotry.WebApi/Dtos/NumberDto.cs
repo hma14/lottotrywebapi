@@ -7,6 +7,7 @@ namespace Lottotry.WebApi.Dtos
 {
     public class NumberDto
     {
+        public int Value { get; set; }
         public int Number { get; set; }
         public int NumberRange { get; set; }
         public int Distance { get; set; }

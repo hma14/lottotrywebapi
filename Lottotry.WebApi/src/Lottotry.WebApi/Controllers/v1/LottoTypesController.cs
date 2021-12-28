@@ -13,6 +13,12 @@ namespace Lottotry.WebApi.Controllers
     using MediatR;
     using System;
     using System.Collections.Generic;
+    using Lottotry.WebApi.Domain.Numbers;
+    using System.Linq;
+    using static Lottotry.WebApi.Dtos.Constants;
+    using AutoMapper;
+    using Lottotry.WebApi.Dtos;
+    using Lottotry.WebApi.Dtos.Number;
 
     [ApiController]
     [Route("api/lottotypes")]
@@ -20,10 +26,13 @@ namespace Lottotry.WebApi.Controllers
     public class LottoTypesController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public LottoTypesController(IMediator mediator)
+        public LottoTypesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
+
         }
 
 
@@ -90,7 +99,98 @@ namespace Lottotry.WebApi.Controllers
             return Ok(response);
         }
 
+#if true
 
+        /// <summary>
+        /// Analysize a number for potential next hit
+        /// </summary>
+        /// <response code="200">LottoType list returned successfully.</response>
+        /// <response code="400">LottoType has missing/invalid values.</response>
+        /// <response code="500">There was an error on the server while creating the LottoType.</response>
+        /// <remarks>
+        [ProducesResponseType(typeof(IEnumerable<LottoTypeDto>), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        [Produces("application/json")]
+        [HttpGet("IsNumberPotentialNextHit/{lottoName}", Name = "IsNumberPotentialNextHit")]
+        public async Task<ActionResult<bool>> IsNumberPotentialNextHit(LottoNames lottoName, int targetNumber, int pageSize = 100)
+        {
+            LottoTypeParametersDto lottoTypeParametersDto = new LottoTypeParametersDto()
+            {
+                LottoName = lottoName,
+                PageSize = pageSize,
+            };
+            var query = new GetLottoTypeList.LottoTypeListQuery(lottoTypeParametersDto);
+            var queryResponse = await _mediator.Send(query);
+
+            return AnalysisNumber(queryResponse, targetNumber);
+        }
+
+        /// <summary>
+        /// Analysize all numbers for potential next hit and return a list of hit potential list
+        /// </summary>
+        /// <response code="200">LottoType list returned successfully.</response>
+        /// <response code="400">LottoType has missing/invalid values.</response>
+        /// <response code="500">There was an error on the server while creating the LottoType.</response>
+        /// <remarks>
+        [ProducesResponseType(typeof(IEnumerable<LottoTypeDto>), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        [Produces("application/json")]
+        [HttpGet("GetPotentialHitNumbers/{lottoName}", Name = "GetPotentialHitNumbers")]
+        public async Task<LottoTypeDto> GetPotentialHitNumbers(LottoNames lottoName, int? drawNumber = null, int pageSize = 100)
+        {
+            LottoTypeParametersDto lottoTypeParametersDto = new LottoTypeParametersDto()
+            {
+                LottoName = lottoName,
+                PageSize = pageSize,
+            };
+            var query = new GetLottoTypeList.LottoTypeListQuery(lottoTypeParametersDto);
+            var queryResponse = await _mediator.Send(query);
+
+            var lastDraw = queryResponse.First();
+            if (drawNumber != null)
+            {
+                lastDraw = queryResponse.Where(x => x.DrawNumber == drawNumber.Value).FirstOrDefault();
+            }
+            var numbers  = lastDraw.Numbers.OrderBy(x => x.Value).ToList();
+            foreach (var num in numbers)
+            {
+                num.IsNextPotentialHit = AnalysisNumber(queryResponse, num.Value);
+            }
+
+            return lastDraw; 
+        }
+
+
+        private bool AnalysisNumber(PagedList<LottoTypeDto> queryResponse, int targetNumber)
+        {
+            List<NumberDto> targetNumberList = new List<NumberDto>(); 
+
+            var numbers = queryResponse.Select(x => x.Numbers);
+            foreach (var num in numbers)
+            {
+                var arr = num.OrderBy(x => x.Value).ToArray();
+                targetNumberList.Add(arr[targetNumber - 1]);
+            }
+            bool isHot = false;
+            var hitList = targetNumberList.Where(x => x.IsHit == true).ToList();
+            var prevHit = hitList.Count() > 1 ? hitList[1] : null;
+            var prevPrevHit = hitList.Count() > 2 ? hitList[2] : null;
+            var maxNumberofDrawsWhenHit = hitList.Max(x => x.NumberofDrawsWhenHit);
+            var currentDraw = targetNumberList.First();
+
+            isHot = (currentDraw.IsHit == false &&
+                     (prevHit?.NumberofDrawsWhenHit > 15 ||
+                       prevPrevHit?.NumberofDrawsWhenHit > 15 ||
+                       maxNumberofDrawsWhenHit < 10));
+
+
+
+            return (isHot);
+        }
+
+#endif
 
         /// <summary>
         /// Gets a list of all LottoTypes.
@@ -146,6 +246,20 @@ namespace Lottotry.WebApi.Controllers
             Response.Headers.Add("X-Pagination",
                 JsonSerializer.Serialize(paginationMetadata));
 
+            LottoTypeDto lastDraw = queryResponse.First();
+            if (lottoTypeParametersDto.CurrentDrawNumber != null)
+            {
+                var entry = queryResponse.Where(x => x.DrawNumber == lottoTypeParametersDto.CurrentDrawNumber.Value).FirstOrDefault();
+                lastDraw = entry;
+                lastDraw = await GetPotentialHitNumbers(lottoTypeParametersDto.LottoName, lottoTypeParametersDto.CurrentDrawNumber.Value);
+                entry.Numbers = lastDraw.Numbers;
+            }
+            else
+            {
+                lastDraw = await GetPotentialHitNumbers(lottoTypeParametersDto.LottoName);
+                queryResponse.First().Numbers = lastDraw.Numbers;
+            }                
+            
             return Ok(queryResponse);
         }
 

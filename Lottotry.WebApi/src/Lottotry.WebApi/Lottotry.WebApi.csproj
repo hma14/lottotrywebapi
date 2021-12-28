@@ -22,6 +22,7 @@
     <None Remove="Migrations_bak\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Dtos\NumberDto.cs" />
     <Compile Remove="Migrations\20211107204011_Add_Table_LottoNumbers.Designer.cs" />
   </ItemGroup>
 

@@ -269,6 +269,8 @@
             <response code="500">There was an error on the server while creating the LottoType.</response>
         </member>
         <!-- Badly formed XML comment ignored for member "M:Lottotry.WebApi.Controllers.LottoTypesController.GetLottoTypesByLottoName(System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Lottotry.WebApi.Controllers.LottoTypesController.IsNumberPotentialNextHit(Lottotry.WebApi.Dtos.Constants.LottoNames,System.Int32,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:Lottotry.WebApi.Controllers.LottoTypesController.GetPotentialHitNumbers(Lottotry.WebApi.Dtos.Constants.LottoNames,System.Nullable{System.Int32},System.Int32)" -->
         <member name="M:Lottotry.WebApi.Controllers.LottoTypesController.GetLottoTypes(Lottotry.WebApi.Dtos.LottoType.LottoTypeParametersDto)">
              <summary>
              Gets a list of all LottoTypes.

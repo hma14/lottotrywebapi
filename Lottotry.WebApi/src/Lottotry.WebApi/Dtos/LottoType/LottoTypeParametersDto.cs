@@ -9,5 +9,6 @@ namespace Lottotry.WebApi.Dtos.LottoType
         public string Filters { get; set; }
         public string SortOrder { get; set; }
         public LottoNames LottoName { get; set; }
+        public int? CurrentDrawNumber { get; set; }
     }
 }
