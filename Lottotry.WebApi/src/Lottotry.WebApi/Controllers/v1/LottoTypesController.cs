@@ -155,13 +155,13 @@ namespace Lottotry.WebApi.Controllers
                 newList = queryResponse.Skip(queryResponse.First().DrawNumber - drawNumber.Value);
                 lastDraw = newList.First();
             }
-            var numbers  = lastDraw.Numbers.OrderBy(x => x.Value).ToList();
+            var numbers = lastDraw.Numbers.OrderBy(x => x.Value).ToList();
             foreach (var num in numbers)
             {
                 num.IsNextPotentialHit = AnalysisNumber(newList, num.Value);
             }
 
-            return lastDraw; 
+            return lastDraw;
         }
 
 
@@ -177,15 +177,16 @@ namespace Lottotry.WebApi.Controllers
             }
             bool isHot = false;
             var hitList = targetNumberList.Where(x => x.IsHit == true).ToList();
-            var prevHit = hitList.Count() > 1 ? hitList[1] : null;
-            var prevPrevHit = hitList.Count() > 2 ? hitList[2] : null;
+            var prevHit = hitList.Count() > 0 ? hitList[0] : null;
+            var prevPrevHit = hitList.Count() > 1 ? hitList[1] : null;
             var maxNumberofDrawsWhenHit = hitList.Max(x => x.NumberofDrawsWhenHit);
             var currentDraw = targetNumberList.First();
 
             isHot = (currentDraw.IsHit == false &&
-                     (prevHit?.NumberofDrawsWhenHit > 15 ||
-                       prevPrevHit?.NumberofDrawsWhenHit > 15 ||
-                       maxNumberofDrawsWhenHit < 10));
+                     ((prevHit?.NumberofDrawsWhenHit > 15 || prevPrevHit?.NumberofDrawsWhenHit > 15) && currentDraw.Distance <= 5 ||
+                       (maxNumberofDrawsWhenHit <= 5 && currentDraw.Distance <= 5) ||
+                       //(prevHit?.NumberofDrawsWhenHit > 15  && currentDraw.Distance <= 5) ||
+                       (prevHit?.NumberofDrawsWhenHit > 15 && prevPrevHit?.NumberofDrawsWhenHit > 15 && currentDraw.Distance <= 5)));
 
 
 
@@ -259,8 +260,8 @@ namespace Lottotry.WebApi.Controllers
             {
                 lastDraw = await GetPotentialHitNumbers(lottoTypeParametersDto.LottoName);
                 queryResponse.First().Numbers = lastDraw.Numbers;
-            }                
-            
+            }
+
             return Ok(queryResponse);
         }
 
