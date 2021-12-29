@@ -177,16 +177,45 @@ namespace Lottotry.WebApi.Controllers
             }
             bool isHot = false;
             var hitList = targetNumberList.Where(x => x.IsHit == true).ToList();
-            var prevHit = hitList.Count() > 0 ? hitList[0] : null;
-            var prevPrevHit = hitList.Count() > 1 ? hitList[1] : null;
             var maxNumberofDrawsWhenHit = hitList.Max(x => x.NumberofDrawsWhenHit);
-            var currentDraw = targetNumberList.First();
+            var currentDraw = newList.First(); 
+            var currentNum = targetNumberList.First();
 
-            isHot = (currentDraw.IsHit == false &&
-                     ((prevHit?.NumberofDrawsWhenHit > 15 || prevPrevHit?.NumberofDrawsWhenHit > 15) && currentDraw.Distance <= 5 ||
-                       (maxNumberofDrawsWhenHit <= 5 && currentDraw.Distance <= 5) ||
-                       //(prevHit?.NumberofDrawsWhenHit > 15  && currentDraw.Distance <= 5) ||
-                       (prevHit?.NumberofDrawsWhenHit > 15 && prevPrevHit?.NumberofDrawsWhenHit > 15 && currentDraw.Distance <= 5)));
+            var whenHits1 = hitList.Count() > 0 ? hitList[0] : null;
+            var whenHits2 = hitList.Count() > 1 ? hitList[1] : null;
+            var whenHits3 = hitList.Count() > 2 ? hitList[2] : null;
+            var whenHits4 = hitList.Count() > 3 ? hitList[3] : null;
+            var whenHits5 = hitList.Count() > 4 ? hitList[4] : null;
+
+
+            var avgTotalHits = (int) currentDraw.Numbers.Average(x => x.TotalHits);
+            var maxTotalHits = currentDraw.Numbers.Max(x => x.TotalHits);
+            var minTotalHits = currentDraw.Numbers.Min(x => x.TotalHits);
+
+            var hot = (int)(avgTotalHits + (maxTotalHits - avgTotalHits) / 2);
+            var cold = (int) (minTotalHits + (avgTotalHits - minTotalHits) / 2);
+            var warm = avgTotalHits;
+
+            const int max = 13;
+            const int mid = 10;
+            const int min = 5;
+
+
+
+            isHot = (
+                     ((whenHits1?.NumberofDrawsWhenHit > max || whenHits2?.NumberofDrawsWhenHit > max) && currentNum.Distance < min ||
+                       whenHits1?.NumberofDrawsWhenHit > max && currentNum.Distance > max && currentNum.TotalHits >= hot ||
+                       (maxNumberofDrawsWhenHit < min && currentNum.Distance < min && whenHits1?.NumberofDrawsWhenHit != 1 && whenHits2?.NumberofDrawsWhenHit != 1) ||
+                       (whenHits2?.NumberofDrawsWhenHit > max && whenHits1?.NumberofDrawsWhenHit != 1 && currentNum.Distance > max && currentNum.TotalHits >= hot) ||
+                       (whenHits1?.NumberofDrawsWhenHit <= min && whenHits2?.NumberofDrawsWhenHit > max && currentNum.Distance < mid && currentNum.TotalHits >= hot) ||
+                       (whenHits2?.NumberofDrawsWhenHit > max && whenHits1?.NumberofDrawsWhenHit != 1 && currentNum.Distance < min) ||
+                       (whenHits3?.NumberofDrawsWhenHit > max && whenHits1?.NumberofDrawsWhenHit != 1 && whenHits2?.NumberofDrawsWhenHit != 1 && currentNum.Distance < min) ||
+                       (whenHits1?.NumberofDrawsWhenHit > 20 && currentNum.Distance < mid) ||
+                       (whenHits1?.NumberofDrawsWhenHit <= min && whenHits2?.NumberofDrawsWhenHit <= min && whenHits1?.NumberofDrawsWhenHit != 1 && whenHits2?.NumberofDrawsWhenHit != 1 && whenHits3?.NumberofDrawsWhenHit <= min && currentNum.Distance < min && currentNum.TotalHits >= hot) ||
+                       (whenHits1?.NumberofDrawsWhenHit <= min && whenHits2?.NumberofDrawsWhenHit <= min && whenHits1?.NumberofDrawsWhenHit != 1 && whenHits2?.NumberofDrawsWhenHit != 1 && whenHits3?.NumberofDrawsWhenHit <= min && whenHits4?.NumberofDrawsWhenHit <= min && currentNum.Distance < min && currentNum.TotalHits >= hot) ||
+                       (whenHits1?.NumberofDrawsWhenHit <= min && whenHits2?.NumberofDrawsWhenHit <= min && whenHits1?.NumberofDrawsWhenHit != 1 && whenHits2?.NumberofDrawsWhenHit != 1 && whenHits3?.NumberofDrawsWhenHit <= min && whenHits4?.NumberofDrawsWhenHit <= min && whenHits5?.NumberofDrawsWhenHit <= min && currentNum.Distance < min && currentNum.TotalHits >= hot) ||
+                       (whenHits1?.NumberofDrawsWhenHit <= min && whenHits2?.NumberofDrawsWhenHit <= min && whenHits1?.NumberofDrawsWhenHit != 1 && whenHits2?.NumberofDrawsWhenHit != 1 && whenHits3?.NumberofDrawsWhenHit > max && currentNum.Distance < min && currentNum.TotalHits >= hot) ||
+                       (whenHits1?.NumberofDrawsWhenHit > max && whenHits2?.NumberofDrawsWhenHit > max && currentNum.Distance < min)));
 
 
 
