@@ -178,7 +178,7 @@ namespace Lottotry.WebApi.Controllers
             bool isHot = false;
             var hitList = targetNumberList.Where(x => x.IsHit == true).ToList();
             var maxNumberofDrawsWhenHit = hitList.Max(x => x.NumberofDrawsWhenHit);
-            var currentDraw = newList.First(); 
+            var currentDraw = newList.First();
             var currentNum = targetNumberList.First();
 
             var whenHits1 = hitList.Count() > 0 ? hitList[0] : null;
@@ -188,12 +188,12 @@ namespace Lottotry.WebApi.Controllers
             var whenHits5 = hitList.Count() > 4 ? hitList[4] : null;
 
 
-            var avgTotalHits = (int) currentDraw.Numbers.Average(x => x.TotalHits);
+            var avgTotalHits = (int)currentDraw.Numbers.Average(x => x.TotalHits);
             var maxTotalHits = currentDraw.Numbers.Max(x => x.TotalHits);
             var minTotalHits = currentDraw.Numbers.Min(x => x.TotalHits);
 
             var hot = (int)(avgTotalHits + (maxTotalHits - avgTotalHits) / 2);
-            var cold = (int) (minTotalHits + (avgTotalHits - minTotalHits) / 2);
+            var cold = (int)(minTotalHits + (avgTotalHits - minTotalHits) / 2);
             var warm = avgTotalHits;
 
             const int max = 13;
@@ -203,8 +203,8 @@ namespace Lottotry.WebApi.Controllers
 
 
             isHot = (
-                     ((whenHits1?.NumberofDrawsWhenHit > max || whenHits2?.NumberofDrawsWhenHit > max) && currentNum.Distance < min ||
-                       whenHits1?.NumberofDrawsWhenHit > max && currentNum.Distance > max && currentNum.TotalHits >= hot ||
+                       (whenHits1?.NumberofDrawsWhenHit > max || whenHits2?.NumberofDrawsWhenHit > max) && currentNum.Distance < min ||
+                       (whenHits1?.NumberofDrawsWhenHit > max && currentNum.Distance > max) ||
                        (maxNumberofDrawsWhenHit < min && currentNum.Distance < min && whenHits1?.NumberofDrawsWhenHit != 1 && whenHits2?.NumberofDrawsWhenHit != 1) ||
                        (whenHits2?.NumberofDrawsWhenHit > max && whenHits1?.NumberofDrawsWhenHit != 1 && currentNum.Distance > max && currentNum.TotalHits >= hot) ||
                        (whenHits1?.NumberofDrawsWhenHit <= min && whenHits2?.NumberofDrawsWhenHit > max && currentNum.Distance < mid && currentNum.TotalHits >= hot) ||
@@ -214,8 +214,9 @@ namespace Lottotry.WebApi.Controllers
                        (whenHits1?.NumberofDrawsWhenHit <= min && whenHits2?.NumberofDrawsWhenHit <= min && whenHits1?.NumberofDrawsWhenHit != 1 && whenHits2?.NumberofDrawsWhenHit != 1 && whenHits3?.NumberofDrawsWhenHit <= min && currentNum.Distance < min && currentNum.TotalHits >= hot) ||
                        (whenHits1?.NumberofDrawsWhenHit <= min && whenHits2?.NumberofDrawsWhenHit <= min && whenHits1?.NumberofDrawsWhenHit != 1 && whenHits2?.NumberofDrawsWhenHit != 1 && whenHits3?.NumberofDrawsWhenHit <= min && whenHits4?.NumberofDrawsWhenHit <= min && currentNum.Distance < min && currentNum.TotalHits >= hot) ||
                        (whenHits1?.NumberofDrawsWhenHit <= min && whenHits2?.NumberofDrawsWhenHit <= min && whenHits1?.NumberofDrawsWhenHit != 1 && whenHits2?.NumberofDrawsWhenHit != 1 && whenHits3?.NumberofDrawsWhenHit <= min && whenHits4?.NumberofDrawsWhenHit <= min && whenHits5?.NumberofDrawsWhenHit <= min && currentNum.Distance < min && currentNum.TotalHits >= hot) ||
-                       (whenHits1?.NumberofDrawsWhenHit <= min && whenHits2?.NumberofDrawsWhenHit <= min && whenHits1?.NumberofDrawsWhenHit != 1 && whenHits2?.NumberofDrawsWhenHit != 1 && whenHits3?.NumberofDrawsWhenHit > max && currentNum.Distance < min && currentNum.TotalHits >= hot) ||
-                       (whenHits1?.NumberofDrawsWhenHit > max && whenHits2?.NumberofDrawsWhenHit > max && currentNum.Distance < min)));
+                       (whenHits1?.NumberofDrawsWhenHit <= min && whenHits2?.NumberofDrawsWhenHit <= min && whenHits3?.NumberofDrawsWhenHit > max && currentNum.Distance < min) ||
+                       (whenHits1?.NumberofDrawsWhenHit > max && whenHits2?.NumberofDrawsWhenHit > max && currentNum.Distance < min)
+                       );
 
 
 

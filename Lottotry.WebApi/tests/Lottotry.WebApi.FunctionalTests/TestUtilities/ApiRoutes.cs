@@ -7,6 +7,28 @@ namespace Lottotry.WebApi.FunctionalTests.TestUtilities
 
         // new api route marker - do not delete
 
+public static class DailyGrand_GrandNumber
+    {
+        public const string Id = "{id}";
+        public const string GetList = $"{Base}/dailyGrand_GrandNumber";
+        public const string GetRecord = $"{Base}/dailyGrand_GrandNumber/{Id}";
+        public const string Create = $"{Base}/dailyGrand_GrandNumber";
+        public const string Delete = $"{Base}/dailyGrand_GrandNumber/{Id}";
+        public const string Put = $"{Base}/dailyGrand_GrandNumber/{Id}";
+        public const string Patch = $"{Base}/dailyGrand_GrandNumber/{Id}";
+    }
+
+public static class DailyGrand
+    {
+        public const string Id = "{id}";
+        public const string GetList = $"{Base}/dailyGrand";
+        public const string GetRecord = $"{Base}/dailyGrand/{Id}";
+        public const string Create = $"{Base}/dailyGrand";
+        public const string Delete = $"{Base}/dailyGrand/{Id}";
+        public const string Put = $"{Base}/dailyGrand/{Id}";
+        public const string Patch = $"{Base}/dailyGrand/{Id}";
+    }
+
 public static class Numbers
     {
         public const string Id = "{id}";

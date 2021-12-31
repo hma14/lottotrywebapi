@@ -4,14 +4,16 @@ using Lottotry.WebApi.Databases;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lottotry.WebApi.Migrations
 {
     [DbContext(typeof(LottotryDbContext))]
-    partial class LottotryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211230224857_Add_Table_DailyGrand")]
+    partial class Add_Table_DailyGrand
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,26 +85,6 @@ namespace Lottotry.WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DailyGrand");
-                });
-
-            modelBuilder.Entity("Lottotry.WebApi.Domain.DailyGrand_GrandNumber.DailyGrand_GrandNumber", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DrawDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DrawNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GrandNumber")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DailyGrand_GrandNumber");
                 });
 
             modelBuilder.Entity("Lottotry.WebApi.Domain.Lotto649.Lotto649", b =>
