@@ -55,9 +55,15 @@ namespace Lottotry.WebApi
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+#if false
                     webBuilder.UseStartup(typeof(Startup).GetTypeInfo().Assembly.FullName)
                     .UseContentRoot(Directory.GetCurrentDirectory())
                     .UseKestrel();
+#else
+                    webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
+                    webBuilder.UseIISIntegration();
+                    webBuilder.UseStartup<Startup>();
+#endif                
                 });
     }
 }
