@@ -19,8 +19,10 @@ namespace Lottotry.WebApi.Controllers
     using AutoMapper;
     using Lottotry.WebApi.Dtos;
     using Lottotry.WebApi.Dtos.Number;
+    using Microsoft.AspNetCore.Cors;
 
     [ApiController]
+    [EnableCors("Lottotry.WebApiCorsPolicy")]
     [Route("api/lottotypes")]
     [ApiVersion("1.0")]
     public class LottoTypesController : ControllerBase
