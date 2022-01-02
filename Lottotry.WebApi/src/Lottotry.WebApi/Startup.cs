@@ -30,6 +30,14 @@ namespace Lottotry.WebApi
         {
             // TODO update CORS for your env
             services.AddCorsService("Lottotry.WebApiCorsPolicy");
+
+            services.AddCors(o => o.AddPolicy("Lottotry.WebApiCorsPolicy", builder =>
+            {
+                builder.WithOrigins("http://api.lottotry.com")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services.AddInfrastructure(_config, _env);
             services.AddControllers()
                 .AddNewtonsoftJson();
@@ -62,10 +70,10 @@ namespace Lottotry.WebApi
             // A slightly less secure option would be to redirect http to 400, 505, etc.
             app.UseHttpsRedirection();
 
-            app.UseCors("Lottotry.WebApiCorsPolicy");
-
             app.UseSerilogRequestLogging();
             app.UseRouting();
+
+            app.UseCors("Lottotry.WebApiCorsPolicy");
 
             app.UseErrorHandlingMiddleware();
             app.UseEndpoints(endpoints =>
