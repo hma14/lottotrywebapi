@@ -31,13 +31,6 @@ namespace Lottotry.WebApi
             // TODO update CORS for your env
             services.AddCorsService("Lottotry.WebApiCorsPolicy");
 
-            services.AddCors(o => o.AddPolicy("Lottotry.WebApiCorsPolicy", builder =>
-            {
-                builder.WithOrigins("http://api.lottotry.com")
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
-
             services.AddInfrastructure(_config, _env);
             services.AddControllers()
                 .AddNewtonsoftJson();
