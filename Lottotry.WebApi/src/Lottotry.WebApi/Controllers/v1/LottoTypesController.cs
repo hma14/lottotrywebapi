@@ -166,6 +166,7 @@ namespace Lottotry.WebApi.Controllers
         }
 
 
+
         private bool AnalysisNumber(IEnumerable<LottoTypeDto> newList, int targetNumber)
         {
             List<NumberDto> targetNumberList = new List<NumberDto>();
@@ -278,7 +279,7 @@ namespace Lottotry.WebApi.Controllers
 
             Response.Headers.Add("X-Pagination",
                 JsonSerializer.Serialize(paginationMetadata));
-
+#if false
             LottoTypeDto lastDraw = queryResponse.First();
             if (lottoTypeParametersDto.CurrentDrawNumber != null)
             {
@@ -292,6 +293,7 @@ namespace Lottotry.WebApi.Controllers
                 lastDraw = await GetPotentialHitNumbers(lottoTypeParametersDto.LottoName);
                 queryResponse.First().Numbers = lastDraw.Numbers;
             }
+#endif
 
             return Ok(queryResponse);
         }
