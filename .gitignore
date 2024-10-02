@@ -298,3 +298,4 @@ __pycache__/
 Lottotry.WebApi/src/Lottotry.WebApi/appsettings.Development.json
 Lottotry.WebApi/src/Lottotry.WebApi/appsettings.json
 Lottotry.WebApi/src/Lottotry.WebApi/appsettings.Production.json
+Lottotry.WebApi/src/Lottotry.WebApi/appsettings.Startup.json
