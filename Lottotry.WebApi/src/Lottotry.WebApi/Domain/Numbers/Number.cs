@@ -34,5 +34,9 @@ namespace Lottotry.WebApi.Domain.Numbers
 
         [Sieve(CanFilter = true, CanSort = true)]
         public int TotalHits { get; set; }
+
+        [Sieve(CanFilter = true, CanSort = true)]
+        public int Probability { get; set; }
+
     }
 }

@@ -23,11 +23,13 @@ namespace Lottotry.WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers()
+                .AddNewtonsoftJson();
+
             // TODO update CORS for your env
             services.AddCorsService("Lottotry.WebApiCorsPolicy");
             services.AddInfrastructure(_config, _env);
-            services.AddControllers()
-                .AddNewtonsoftJson();
+            
             services.AddApiVersioningExtension();
             services.AddWebApiServices();
             services.AddHealthChecks();

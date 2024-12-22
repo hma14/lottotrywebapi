@@ -17,5 +17,8 @@ namespace Lottotry.WebApi.Dtos.Number
 
         // new
         public bool? IsNextPotentialHit { get; set; }
+
+        public int Probability { get; set; }
+
     }
 }
