@@ -11,8 +11,10 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using static TestFixture;
+using System.Collections.Generic;
+using System.Linq;
 
-public class AddNumberCommandTests : TestBase
+public class AddNumberCommandListTests : TestBase
 {
     [Test]
     public async Task can_add_new_number_list_to_db()

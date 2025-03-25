@@ -9,6 +9,8 @@ using NUnit.Framework;
 using System.Threading.Tasks;
 using Lottotry.WebApi.Domain.LottoTypes.Features;
 using static TestFixture;
+using System;
+using Lottotry.WebApi.IntegrationTests.FeatureTests.Number;
 
 public class LottoTypeQueryTests : TestBase
 {

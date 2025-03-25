@@ -8,6 +8,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using static TestFixture;
+using System.Linq;
+using System;
 
 public class NumberListQueryTests : TestBase
 {
@@ -55,8 +57,8 @@ public class NumberListQueryTests : TestBase
         //Arrange
         var fakeNumberOne = new FakeNumber { }.Generate();
         var fakeNumberTwo = new FakeNumber { }.Generate();
-        fakeNumberOne.Id = 2;
-        fakeNumberTwo.Id = 1;
+        fakeNumberOne.Id = Guid.NewGuid();
+        fakeNumberTwo.Id = Guid.NewGuid();
         var queryParameters = new NumberParametersDto() { SortOrder = "Id" };
 
         await InsertAsync(fakeNumberOne, fakeNumberTwo);
@@ -83,8 +85,8 @@ public class NumberListQueryTests : TestBase
         //Arrange
         var fakeNumberOne = new FakeNumber { }.Generate();
         var fakeNumberTwo = new FakeNumber { }.Generate();
-        fakeNumberOne.Id = 1;
-        fakeNumberTwo.Id = 2;
+        fakeNumberOne.Id = Guid.NewGuid();
+        fakeNumberTwo.Id = Guid.NewGuid();
         var queryParameters = new NumberParametersDto() { SortOrder = "-Id" };
 
         await InsertAsync(fakeNumberOne, fakeNumberTwo);
@@ -280,8 +282,8 @@ public class NumberListQueryTests : TestBase
         //Arrange
         var fakeNumberOne = new FakeNumber { }.Generate();
         var fakeNumberTwo = new FakeNumber { }.Generate();
-        fakeNumberOne.Id = 1;
-        fakeNumberTwo.Id = 2;
+        fakeNumberOne.Id = Guid.NewGuid();
+        fakeNumberTwo.Id = Guid.NewGuid();
         var queryParameters = new NumberParametersDto() { Filters = $"Id == {fakeNumberTwo.Id}" };
 
         await InsertAsync(fakeNumberOne, fakeNumberTwo);

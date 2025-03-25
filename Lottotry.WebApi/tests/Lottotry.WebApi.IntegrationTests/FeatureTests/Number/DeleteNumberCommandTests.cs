@@ -9,6 +9,7 @@ using NUnit.Framework;
 using System.Threading.Tasks;
 using Lottotry.WebApi.Domain.Numbers.Features;
 using static TestFixture;
+using System;
 
 public class DeleteNumberCommandTests : TestBase
 {
