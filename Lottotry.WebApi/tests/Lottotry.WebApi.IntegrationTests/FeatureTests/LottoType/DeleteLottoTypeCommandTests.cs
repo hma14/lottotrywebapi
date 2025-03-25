@@ -3,12 +3,13 @@ namespace Lottotry.WebApi.IntegrationTests.FeatureTests.LottoType;
 using Lottotry.WebApi.SharedTestHelpers.Fakes.LottoType;
 using Lottotry.WebApi.IntegrationTests.TestUtilities;
 using FluentAssertions;
-using Exceptions;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using Lottotry.WebApi.Domain.LottoTypes.Features;
 using static TestFixture;
+using System;
+using Lottotry.WebApi.IntegrationTests.FeatureTests.Number;
 
 public class DeleteLottoTypeCommandTests : TestBase
 {

@@ -8,6 +8,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using static TestFixture;
+using System.Linq;
+using System;
 
 public class LottoTypeListQueryTests : TestBase
 {

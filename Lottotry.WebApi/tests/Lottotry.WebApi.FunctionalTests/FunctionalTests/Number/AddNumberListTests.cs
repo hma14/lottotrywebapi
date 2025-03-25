@@ -8,6 +8,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using System.Net;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
 
 public class AddNumberListTests : TestBase
 {

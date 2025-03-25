@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
 using Lottotry.WebApi.Domain.Numbers.Features;
 using static TestFixture;
+using System.Linq;
 
 public class UpdateNumberCommandTests : TestBase
 {
