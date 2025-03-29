@@ -8,6 +8,7 @@ namespace Lottotry.WebApi.Databases
     using Lottotry.WebApi.Domain.Numbers;
     using Lottotry.WebApi.Domain.DailyGrand;
     using Lottotry.WebApi.Domain.DailyGrand_GrandNumber;
+using Lottotry.WebApi.Domain.Users;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
     using System.Threading;
@@ -21,6 +22,7 @@ namespace Lottotry.WebApi.Databases
         }
 
         #region DbSet Region - Do Not Delete
+    public DbSet<User> Users { get; set; }
         public DbSet<DailyGrand_GrandNumber> DailyGrand_GrandNumber { get; set; }
         public DbSet<DailyGrand> DailyGrand { get; set; }
         public DbSet<Number> Numbers { get; set; }

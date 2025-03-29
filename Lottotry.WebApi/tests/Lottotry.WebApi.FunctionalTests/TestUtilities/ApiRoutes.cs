@@ -1,3 +1,5 @@
+using System;
+
 namespace Lottotry.WebApi.FunctionalTests.TestUtilities
 {
     public class ApiRoutes
@@ -6,6 +8,17 @@ namespace Lottotry.WebApi.FunctionalTests.TestUtilities
         public const string Health = Base + "/health";
 
         // new api route marker - do not delete
+
+    public static class Users
+    {
+        public static string GetList(string version = "v1") => $"{Base}/{version}/users";
+        public static string GetAll(string version = "v1") => $"{Base}/{version}/users/all";
+        public static string GetRecord(Guid id, string version = "v1") => $"{Base}/{version}/users/{id}";
+        public static string Delete(Guid id, string version = "v1") => $"{Base}/{version}/users/{id}";
+        public static string Put(Guid id, string version = "v1") => $"{Base}/{version}/users/{id}";
+        public static string Create(string version = "v1") => $"{Base}/{version}/users";
+        public static string CreateBatch(string version = "v1") => $"{Base}/{version}/users/batch";
+    }
 
 public static class DailyGrand_GrandNumber
     {

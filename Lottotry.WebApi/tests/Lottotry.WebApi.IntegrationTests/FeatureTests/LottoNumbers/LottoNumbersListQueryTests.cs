@@ -62,7 +62,7 @@ namespace Lottotry.WebApi.IntegrationTests.FeatureTests.LottoNumbers
             Func<Task> act = () => SendAsync(query);
 
             // Assert
-            act.Should().Throw<ApiException>();
+            await act.Should().ThrowAsync<ApiException>();
         }
         
         [Test]

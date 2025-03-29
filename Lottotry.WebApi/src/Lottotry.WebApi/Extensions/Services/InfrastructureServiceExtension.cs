@@ -24,6 +24,9 @@ namespace Lottotry.WebApi.Extensions.Services
                         builder => builder.MigrationsAssembly(typeof(LottotryDbContext).Assembly.FullName)));
             }
 
+            services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
+
+
             // Auth -- Do Not Delete
         }
     }

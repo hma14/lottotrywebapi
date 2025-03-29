@@ -40,7 +40,7 @@ namespace Lottotry.WebApi.IntegrationTests.FeatureTests.Lotto649
             Func<Task> act = () => SendAsync(query);
 
             // Assert
-            act.Should().Throw<KeyNotFoundException>();
+            await act.Should().ThrowAsync<KeyNotFoundException>();
         }
     }
 }

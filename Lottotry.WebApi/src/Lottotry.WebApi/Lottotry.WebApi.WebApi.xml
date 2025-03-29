@@ -252,6 +252,36 @@
             <response code="400">LottoNumbers has missing/invalid values.</response>
             <response code="500">There was an error on the server while creating the LottoNumbers.</response>
         </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.UsersController.GetUsers(Lottotry.WebApi.Domain.Users.Dtos.UserParametersDto)">
+            <summary>
+            Gets a list of all Users.
+            </summary>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.UsersController.GetAllUsers">
+            <summary>
+            Gets a list of all Users.
+            </summary>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.UsersController.GetUser(System.Guid)">
+            <summary>
+            Gets a single User by ID.
+            </summary>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.UsersController.AddUser(Lottotry.WebApi.Domain.Users.Dtos.UserForCreationDto)">
+            <summary>
+            Creates a new User record.
+            </summary>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.UsersController.UpdateUser(System.Guid,Lottotry.WebApi.Domain.Users.Dtos.UserForUpdateDto)">
+            <summary>
+            Updates an entire existing User.
+            </summary>
+        </member>
+        <member name="M:Lottotry.WebApi.Controllers.v1.UsersController.DeleteUser(System.Guid)">
+            <summary>
+            Deletes an existing User record.
+            </summary>
+        </member>
         <member name="M:Lottotry.WebApi.Controllers.LottoTypesController.AddLottoType(Lottotry.WebApi.Dtos.LottoType.LottoTypeForCreationDto)">
             <summary>
             Creates a new LottoType record.
@@ -386,6 +416,11 @@
             <response code="201">Number List created.</response>
             <response code="400">Number List has missing/invalid values.</response>
             <response code="500">There was an error on the server while creating the list of Number.</response>
+        </member>
+        <member name="M:Lottotry.WebApi.Databases.EntityConfigurations.UserConfiguration.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{Lottotry.WebApi.Domain.Users.User})">
+            <summary>
+            The database configuration for Users. 
+            </summary>
         </member>
     </members>
 </doc>

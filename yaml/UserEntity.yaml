@@ -1,0 +1,15 @@
+Entities:
+  - Name: User
+    Features:
+      - Type: GetList
+      - Type: GetAll
+      - Type: GetRecord
+      - Type: AddRecord
+      - Type: UpdateRecord
+      - Type: DeleteRecord
+    Properties:
+      - Name: Username
+      - Name: Email
+        AsValueObject: Email
+      - Name: PasswordHash
+      - Name: Role
