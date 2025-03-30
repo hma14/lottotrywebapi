@@ -13,6 +13,7 @@ namespace Lottotry.WebApi
     using System.Reflection;
     using System.Threading.Tasks;
     using Module = Autofac.Module;
+    using Autofac.Core;
 
     public class Program
     {
@@ -82,6 +83,51 @@ namespace Lottotry.WebApi
             protected override void Load(ContainerBuilder builder)
             {
                 // Add custom registrations here if needed
+
+#if false  // below are examples
+
+                // Register a simple service with scoped lifetime (default for ASP.NET Core)
+                builder.RegisterType<MyService>()
+                       .As<IMyService>()
+                       .InstancePerLifetimeScope(); // Scoped to the HTTP request in ASP.NET Core
+
+                // Register a service with a parameter (e.g., connection string)
+                builder.RegisterType<SqlRepository>()
+                       .As<IRepository>()
+                       .WithParameter("connectionString", "Server=myServer;Database=myDB;Trusted_Connection=True;")
+                       .InstancePerLifetimeScope();
+
+                // Register a singleton instance
+                builder.RegisterType<SomeSingleton>()
+                       .As<ISomeSingleton>()
+                       .SingleInstance(); // Only one instance ever created
+
+                // Register an existing instance
+                var specificInstance = new MyService();
+                builder.RegisterInstance(specificInstance)
+                       .As<IMyService>(); // Always resolves to this specific instance
+
+                // Register a factory or delegate
+                builder.Register(ctx =>
+                {
+                    var env = ctx.Resolve<IHostEnvironment>();
+                    return new EnvironmentService(env.EnvironmentName);
+                })
+                .As<IEnvironmentService>()
+                .InstancePerLifetimeScope();
+
+                // Register all implementations of an interface in an assembly
+                builder.RegisterAssemblyTypes(typeof(AutofacModule).Assembly)
+                       .Where(t => t.Name.EndsWith("Repository"))
+                       .AsImplementedInterfaces()
+                       .InstancePerLifetimeScope();
+
+                // Register a generic type
+                builder.RegisterGeneric(typeof(GenericRepository<>))
+                       .As(typeof(IGenericRepository<>))
+                       .InstancePerLifetimeScope();
+
+#endif
             }
         }
     }
