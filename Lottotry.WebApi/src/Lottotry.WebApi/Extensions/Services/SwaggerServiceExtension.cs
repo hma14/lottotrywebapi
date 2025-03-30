@@ -29,7 +29,7 @@ namespace Lottotry.WebApi.Extensions.Services
                         {
                             Name = "Lottotru Support Team",
                             Email = "info@lottotry.com",
-                            Url = new Uri("http://www.lottotry.com"),
+                            Url = new Uri("http://api.lottotry.com"),
                         },
                     });
 

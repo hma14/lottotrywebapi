@@ -1,6 +1,8 @@
 namespace Lottotry.WebApi
 {
+    using Autofac;
     using Autofac.Extensions.DependencyInjection;
+    using Microsoft.AspNetCore.Mvc.ApiExplorer;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -10,12 +12,14 @@ namespace Lottotry.WebApi
     using System.IO;
     using System.Reflection;
     using System.Threading.Tasks;
+    using Module = Autofac.Module;
 
     public class Program
     {
         public async static Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
+         
 
             using var scope = host.Services.CreateScope();
 
@@ -64,6 +68,21 @@ namespace Lottotry.WebApi
                     webBuilder.UseIISIntegration();
                     webBuilder.UseStartup<Startup>();
 #endif                
+                }).ConfigureContainer<ContainerBuilder>(containerBuilder =>
+                {
+                    // Register your custom services here
+                    // e.g., containerBuilder.RegisterType<MyService>().As<IMyService>();
+
+                    // Ensure ASP.NET Core services are available to Autofac
+                    containerBuilder.RegisterModule(new AutofacModule());
                 });
+
+        public class AutofacModule : Module
+        {
+            protected override void Load(ContainerBuilder builder)
+            {
+                // Add custom registrations here if needed
+            }
+        }
     }
 }
