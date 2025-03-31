@@ -22,7 +22,7 @@ using Lottotry.WebApi.Domain.Users;
         }
 
         #region DbSet Region - Do Not Delete
-    public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<DailyGrand_GrandNumber> DailyGrand_GrandNumber { get; set; }
         public DbSet<DailyGrand> DailyGrand { get; set; }
         public DbSet<Number> Numbers { get; set; }
@@ -37,6 +37,9 @@ using Lottotry.WebApi.Domain.Users;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<LottoNumbers>().HasKey(vf => new { vf.LottoName, vf.DrawNumber });
+
+            modelBuilder.Entity<User>()
+            .HasOne(u => u.Email);          // User has one Email
         }
     }
 }

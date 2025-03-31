@@ -17,7 +17,7 @@ namespace Lottotry.WebApi.Extensions.Services
     {
         public static void AddWebApiServices(this IServiceCollection services)
         {
-            services.AddMediatR(typeof(Startup));
+            //services.AddMediatR(typeof(Startup));
             services.AddScoped<SieveProcessor>();
             services.AddMvc()
                 .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); });

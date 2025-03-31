@@ -18,6 +18,8 @@ public class User : BaseEntity
     public string PasswordHash { get; private set; }
 
     public string Role { get; private set; }
+
+    [NotMapped]
     public List<IDomainEvent> DomainEvents { get; set; }
 
     // Add Props Marker -- Deleting this comment will cause the add props utility to be incomplete

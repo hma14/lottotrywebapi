@@ -10,10 +10,12 @@ namespace Lottotry.WebApi
     using Serilog;
     using System;
     using System.IO;
-    using System.Reflection;
     using System.Threading.Tasks;
     using Module = Autofac.Module;
     using Autofac.Core;
+    using MediatR;
+    using MediatR.Extensions.Autofac.DependencyInjection;
+    using MediatR.Extensions.Autofac.DependencyInjection.Builder;
 
     public class Program
     {
@@ -83,6 +85,32 @@ namespace Lottotry.WebApi
             protected override void Load(ContainerBuilder builder)
             {
                 // Add custom registrations here if needed
+
+#if true
+                var configuration = MediatRConfigurationBuilder
+                .Create(typeof(Program).Assembly) // Specify the assembly with your handlers
+                .WithAllOpenGenericHandlerTypesRegistered() // Optional: Registers generic handlers
+                .Build();
+
+                builder.RegisterMediatR(configuration);
+#else
+                builder.RegisterType<Mediator>()
+                       .As<IMediator>()
+                       .InstancePerLifetimeScope(); // Scoped to the HTTP request in ASP.NET Core
+
+                // Register ServiceFactory for MediatR to resolve handlers
+                builder.Register(ctx => new ServiceFactory(t => ctx.Resolve(t)))
+                       .As<ServiceFactory>();
+
+                // Register all MediatR handlers in the assembly
+                builder.RegisterAssemblyTypes(typeof(Program).Assembly) // Or typeof(Startup) if that's your intent
+                       .Where(t => t.IsAssignableTo(typeof(IRequestHandler<,>)) ||
+                                   t.IsAssignableTo(typeof(INotificationHandler<>)) ||
+                                   t.IsAssignableTo(typeof(IPipelineBehavior<,>)))
+                       .AsImplementedInterfaces()
+                       .InstancePerLifetimeScope();
+#endif
+
 
 #if false  // below are examples
 

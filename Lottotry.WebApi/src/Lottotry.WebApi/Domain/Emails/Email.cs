@@ -2,7 +2,7 @@ namespace Lottotry.WebApi.Domain.Emails;
 
 using FluentValidation;
 
-public sealed class Email //: ValueObject
+public sealed class Email : ValueObject
 {
     public string Value { get; private set; }
     

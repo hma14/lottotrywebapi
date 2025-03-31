@@ -105,6 +105,20 @@ namespace Lottotry.WebApi.Migrations
                     b.ToTable("DailyGrand_GrandNumber");
                 });
 
+            modelBuilder.Entity("Lottotry.WebApi.Domain.Emails.Email", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Email");
+                });
+
             modelBuilder.Entity("Lottotry.WebApi.Domain.Lotto649.Lotto649", b =>
                 {
                     b.Property<int>("DrawNumber")
@@ -254,6 +268,9 @@ namespace Lottotry.WebApi.Migrations
                     b.Property<int>("NumberofDrawsWhenHit")
                         .HasColumnType("int");
 
+                    b.Property<int>("Probability")
+                        .HasColumnType("int");
+
                     b.Property<int>("TotalHits")
                         .HasColumnType("int");
 
@@ -267,6 +284,31 @@ namespace Lottotry.WebApi.Migrations
                     b.ToTable("Numbers");
                 });
 
+            modelBuilder.Entity("Lottotry.WebApi.Domain.Users.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EmailId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmailId");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Lottotry.WebApi.Domain.Numbers.Number", b =>
                 {
                     b.HasOne("Lottotry.WebApi.Domain.LottoTypes.LottoType", "LottoType")
@@ -274,6 +316,15 @@ namespace Lottotry.WebApi.Migrations
                         .HasForeignKey("LottoTypeId");
 
                     b.Navigation("LottoType");
+                });
+
+            modelBuilder.Entity("Lottotry.WebApi.Domain.Users.User", b =>
+                {
+                    b.HasOne("Lottotry.WebApi.Domain.Emails.Email", "Email")
+                        .WithMany()
+                        .HasForeignKey("EmailId");
+
+                    b.Navigation("Email");
                 });
 
             modelBuilder.Entity("Lottotry.WebApi.Domain.LottoTypes.LottoType", b =>
