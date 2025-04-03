@@ -2,14 +2,15 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 5006
+CMD ["dotnet", "Lottotry.WebApi.dll"]
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["Lottotry.WebApi/src/Lottotry.WebApi/Lottotry.WebApi.csproj", "Lottotry.WebApi/src/Lottotry.WebApi/"]
-RUN dotnet restore "Lottotry.WebApi/src/Lottotry.WebApi/Lottotry.WebApi.csproj"
+COPY ["./Lottotry.WebApi.csproj", "./"]
+RUN dotnet restore "./Lottotry.WebApi.csproj"
 COPY . .
-WORKDIR "/src/Lottotry.WebApi/src/Lottotry.WebApi"
+WORKDIR "./"
 RUN dotnet build "Lottotry.WebApi.csproj" -c Release -o /app/build
 
 FROM build AS publish

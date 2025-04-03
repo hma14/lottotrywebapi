@@ -70,7 +70,14 @@ namespace Lottotry.WebApi
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
                     webBuilder.UseIISIntegration();
                     webBuilder.UseStartup<Startup>();
-#endif                
+                   // webBuilder.UseUrls("http://0.0.0.0:5006");
+
+                    webBuilder.ConfigureKestrel(options =>
+                    {
+                        options.ListenAnyIP(5006);
+                    });
+
+#endif
                 }).ConfigureContainer<ContainerBuilder>(containerBuilder =>
                 {
                     // Register your custom services here
