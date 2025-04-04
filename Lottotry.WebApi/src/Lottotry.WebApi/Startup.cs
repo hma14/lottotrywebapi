@@ -29,7 +29,8 @@ namespace Lottotry.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             // TODO update CORS for your env
-            services.AddCorsService("Lottotry.WebApiCorsPolicy");
+            //services.AddCorsService("Lottotry.WebApiCorsPolicy");
+            services.AddCorsService("AllowAll");
 
             services.AddInfrastructure(_config, _env);
             services.AddControllers()

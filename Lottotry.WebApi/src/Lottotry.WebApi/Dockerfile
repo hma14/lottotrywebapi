@@ -2,7 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 5006
+EXPOSE 8080
 CMD ["dotnet", "Lottotry.WebApi.dll"]
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build

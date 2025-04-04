@@ -16,6 +16,12 @@ namespace Lottotry.WebApi
     using MediatR;
     using MediatR.Extensions.Autofac.DependencyInjection;
     using MediatR.Extensions.Autofac.DependencyInjection.Builder;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.IdentityModel.Tokens;
+    using System.Text;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 
     public class Program
     {
@@ -33,6 +39,28 @@ namespace Lottotry.WebApi
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{hostEnvironment.EnvironmentName}.json", true)
                 .Build();
+
+
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add JWT Authentication
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    };
+                });
+
+            builder.Services.AddAuthorization();
+
 
             //Initialize Logger
             Log.Logger = new LoggerConfiguration()
@@ -72,10 +100,12 @@ namespace Lottotry.WebApi
                     webBuilder.UseStartup<Startup>();
                    // webBuilder.UseUrls("http://0.0.0.0:5006");
 
-                    webBuilder.ConfigureKestrel(options =>
-                    {
-                        options.ListenAnyIP(5006);
-                    });
+                    // uncomment below if using Docker container
+                    //webBuilder.ConfigureKestrel(options =>
+                    //{
+                    //    options.ListenAnyIP(8080);
+                    //});
+
 
 #endif
                 }).ConfigureContainer<ContainerBuilder>(containerBuilder =>

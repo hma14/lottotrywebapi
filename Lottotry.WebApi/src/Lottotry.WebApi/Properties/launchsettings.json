@@ -25,7 +25,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Startup"
       },
-      "applicationUrl": "https://localhost:5006"
+      "applicationUrl": "https://localhost:5006",
+      "sslPort": null,
     },
     "Docker": {
       "commandName": "Docker",

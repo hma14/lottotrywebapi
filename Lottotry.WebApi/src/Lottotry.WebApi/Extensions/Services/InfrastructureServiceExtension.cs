@@ -1,10 +1,13 @@
 namespace Lottotry.WebApi.Extensions.Services
 {
     using Lottotry.WebApi.Databases;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.IdentityModel.Tokens;
+    using System.Text;
 
     public static class ServiceRegistration
     {
@@ -22,9 +25,13 @@ namespace Lottotry.WebApi.Extensions.Services
                     options.UseSqlServer(
                         configuration.GetConnectionString("LottotryDb"),
                         builder => builder.MigrationsAssembly(typeof(LottotryDbContext).Assembly.FullName)));
+                
+                        
             }
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
+
+
 
 
             // Auth -- Do Not Delete
