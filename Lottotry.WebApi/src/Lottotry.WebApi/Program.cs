@@ -38,28 +38,7 @@ namespace Lottotry.WebApi
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{hostEnvironment.EnvironmentName}.json", true)
-                .Build();
-
-
-            var builder = WebApplication.CreateBuilder(args);
-
-            // Add JWT Authentication
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                        ValidAudience = builder.Configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-                    };
-                });
-
-            builder.Services.AddAuthorization();
+                .Build();           
 
 
             //Initialize Logger
@@ -95,6 +74,39 @@ namespace Lottotry.WebApi
                     .UseContentRoot(Directory.GetCurrentDirectory())
                     .UseKestrel();
 #else
+                    webBuilder.ConfigureServices((context, services) =>
+                    {
+                        // Add JWT Authentication
+                        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                            .AddJwtBearer(options =>
+                            {
+                                options.TokenValidationParameters = new TokenValidationParameters
+                                {
+                                    ValidateIssuer = true,
+                                    ValidateAudience = true,
+                                    ValidateLifetime = true,
+                                    ValidateIssuerSigningKey = true,
+                                    ValidIssuer = context.Configuration["Jwt:Issuer"],
+                                    ValidAudience = context.Configuration["Jwt:Audience"],
+                                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(context.Configuration["Jwt:Key"]))
+                                };
+                            });
+
+                        services.AddAuthorization();
+
+                        // Add controllers or other services as needed
+                        services.AddControllers();
+                    })
+                    .Configure(app =>
+                    {
+                        app.UseRouting();
+                        app.UseAuthentication();
+                        app.UseAuthorization();
+                        app.UseEndpoints(endpoints =>
+                        {
+                            endpoints.MapControllers();
+                        });
+                    });
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
                     webBuilder.UseIISIntegration();
                     webBuilder.UseStartup<Startup>();

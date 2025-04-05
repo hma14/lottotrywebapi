@@ -11,13 +11,13 @@ using System.Collections.Generic;
 
 public class User : BaseEntity
 {
-    public string Username { get; private set; }
+    public string Username { get;  set; }
 
-   public Email Email { get; private set; }
+   public Email Email { get;  set; }
 
-    public string PasswordHash { get; private set; }
+    public string PasswordHash { get;  set; }
 
-    public string Role { get; private set; }
+    public string Role { get; set; }
 
     [NotMapped]
     public List<IDomainEvent> DomainEvents { get; set; }

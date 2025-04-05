@@ -6,6 +6,7 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.LottoNumbers
     using NUnit.Framework;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using System.Net;
 
     public class GetLottoNumbersListTests : TestBase
     {
@@ -19,7 +20,7 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.LottoNumbers
             var result = await _client.GetRequestAsync(ApiRoutes.LottoNumbers.GetList);
 
             // Assert
-            result.StatusCode.Should().Be(200);
+            result.StatusCode.Should().Be((HttpStatusCode)200);
         }
     }
 }

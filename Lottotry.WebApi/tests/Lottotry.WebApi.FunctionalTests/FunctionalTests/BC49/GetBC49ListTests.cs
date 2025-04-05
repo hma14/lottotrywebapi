@@ -6,6 +6,7 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.BC49
     using NUnit.Framework;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using System.Net;
 
     public class GetBC49ListTests : TestBase
     {
@@ -19,7 +20,7 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.BC49
             var result = await _client.GetRequestAsync(ApiRoutes.BC49.GetList);
 
             // Assert
-            result.StatusCode.Should().Be(200);
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
 }

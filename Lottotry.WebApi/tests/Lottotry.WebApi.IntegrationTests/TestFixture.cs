@@ -1,12 +1,12 @@
 namespace Lottotry.WebApi.IntegrationTests
 {
+    using Lottotry.WebApi;
     using Lottotry.WebApi.Databases;
     using Lottotry.WebApi.IntegrationTests.TestUtilities;
-    using Lottotry.WebApi;
     using MediatR;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Internal;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Moq;
@@ -15,8 +15,8 @@ namespace Lottotry.WebApi.IntegrationTests
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Threading.Tasks;
+
 
     [SetUpFixture]
     public class TestFixture
@@ -24,7 +24,10 @@ namespace Lottotry.WebApi.IntegrationTests
         private static IConfigurationRoot _configuration;
         private static IWebHostEnvironment _env;
         private static IServiceScopeFactory _scopeFactory;
-        private static Checkpoint _checkpoint;
+        private static Checkpoint _checkpoint = new Checkpoint
+        {
+            TablesToIgnore = new[] { new Respawn.Graph.Table("__EFMigrationsHistory") }
+        };
 
         private string _dockerContainerId;
         private string _dockerSqlPort;
@@ -57,10 +60,10 @@ namespace Lottotry.WebApi.IntegrationTests
 
             _scopeFactory = services.BuildServiceProvider().GetService<IServiceScopeFactory>();
 
-            _checkpoint = new Checkpoint
-            {
-                TablesToIgnore = new[] { "__EFMigrationsHistory" },
-            };
+            //_checkpoint = new Checkpoint
+            //{
+            //    TablesToIgnore = new[] { "__EFMigrationsHistory" },
+            //};
 
             EnsureDatabase();
 

@@ -6,6 +6,7 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.LottoNumbers
     using NUnit.Framework;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using System.Net;
 
     public class UpdateLottoNumbersRecordTests : TestBase
     {
@@ -22,7 +23,7 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.LottoNumbers
             var result = await _client.PutJsonRequestAsync(route, updatedLottoNumbersDto);
 
             // Assert
-            result.StatusCode.Should().Be(204);
+            result.StatusCode.Should().Be((HttpStatusCode)204);
         }
     }
 }

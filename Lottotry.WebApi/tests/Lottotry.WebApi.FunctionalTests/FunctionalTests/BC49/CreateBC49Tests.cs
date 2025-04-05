@@ -6,6 +6,7 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.BC49
     using NUnit.Framework;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using System.Net;
 
     public class CreateBC49Tests : TestBase
     {
@@ -20,7 +21,7 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.BC49
             var result = await _client.PostJsonRequestAsync(route, fakeBC49);
 
             // Assert
-            result.StatusCode.Should().Be(201);
+            result.StatusCode.Should().Be(HttpStatusCode.Created);
         }
     }
 }

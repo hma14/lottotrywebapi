@@ -6,6 +6,7 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.LottoMax
     using NUnit.Framework;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using System.Net;
 
     public class GetLottoMaxTests : TestBase
     {
@@ -21,7 +22,7 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.LottoMax
             var result = await _client.GetRequestAsync(route);
 
             // Assert
-            result.StatusCode.Should().Be(200);
+            result.StatusCode.Should().Be((HttpStatusCode)200);
         }
     }
 }
