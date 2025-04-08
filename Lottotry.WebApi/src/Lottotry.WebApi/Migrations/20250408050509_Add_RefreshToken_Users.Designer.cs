@@ -4,14 +4,16 @@ using Lottotry.WebApi.Databases;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lottotry.WebApi.Migrations
 {
     [DbContext(typeof(LottotryDbContext))]
-    partial class LottotryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250408050509_Add_RefreshToken_Users")]
+    partial class Add_RefreshToken_Users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

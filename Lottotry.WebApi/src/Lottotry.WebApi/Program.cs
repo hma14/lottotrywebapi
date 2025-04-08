@@ -69,11 +69,6 @@ namespace Lottotry.WebApi
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-#if false
-                    webBuilder.UseStartup(typeof(Startup).GetTypeInfo().Assembly.FullName)
-                    .UseContentRoot(Directory.GetCurrentDirectory())
-                    .UseKestrel();
-#else
                     webBuilder.ConfigureServices((context, services) =>
                     {
                         // Add JWT Authentication
@@ -119,7 +114,6 @@ namespace Lottotry.WebApi
                     //});
 
 
-#endif
                 }).ConfigureContainer<ContainerBuilder>(containerBuilder =>
                 {
                     // Register your custom services here

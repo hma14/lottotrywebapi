@@ -8,6 +8,7 @@ using Lottotry.WebApi.Domain.Users.Models;
 using Lottotry.WebApi.Domain.Users.DomainEvents;
 using Lottotry.WebApi.Domain.Emails;
 using System.Collections.Generic;
+using System;
 
 public class User : BaseEntity
 {
@@ -18,6 +19,9 @@ public class User : BaseEntity
     public string PasswordHash { get;  set; }
 
     public string Role { get; set; }
+
+    public string RefreshToken { get; set; }
+    public DateTime RefreshTokenExpiryTime { get; set; }
 
     [NotMapped]
     public List<IDomainEvent> DomainEvents { get; set; }

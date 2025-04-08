@@ -13,3 +13,6 @@ Entities:
         AsValueObject: Email
       - Name: PasswordHash
       - Name: Role
+      - Name: RefreshToken
+      - Name: RefreshTokenExpiryTime
+        Type: DateTime
