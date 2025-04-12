@@ -10,10 +10,10 @@ namespace Lottotry.WebApi.Domain
     public class BaseEntity
     {
         public  virtual Guid Id { get; set; }
-        private readonly List<IDomainEvent> _domainEvents = new();
+        private readonly List<DomainEvents> _domainEvents = new();
         public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
-        public void QueueDomainEvent(IDomainEvent domainEvent)
+        public void QueueDomainEvent(DomainEvents domainEvent)
         {
             _domainEvents.Add(domainEvent);
         }

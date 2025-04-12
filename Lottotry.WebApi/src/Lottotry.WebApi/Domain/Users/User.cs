@@ -23,8 +23,8 @@ public class User : BaseEntity
     public string RefreshToken { get; set; }
     public DateTime RefreshTokenExpiryTime { get; set; }
 
-    [NotMapped]
-    public List<IDomainEvent> DomainEvents { get; set; }
+    //[NotMapped]
+    //public List<IDomainEvent> DomainEvents { get; set; }
 
     // Add Props Marker -- Deleting this comment will cause the add props utility to be incomplete
 
@@ -38,7 +38,7 @@ public class User : BaseEntity
         newUser.PasswordHash = userForCreation.PasswordHash;
         newUser.Role = userForCreation.Role;
 
-        newUser.QueueDomainEvent(new UserCreated(){ User = newUser });
+        //newUser.QueueDomainEvent(new UserCreated(){ User = newUser });
         
         return newUser;
     }
@@ -50,7 +50,7 @@ public class User : BaseEntity
         PasswordHash = userForUpdate.PasswordHash;
         Role = userForUpdate.Role;
 
-        QueueDomainEvent(new UserUpdated(){ Id = Id });
+        //QueueDomainEvent(new UserUpdated(){ Id = Id });
         return this;
     }
 

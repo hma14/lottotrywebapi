@@ -30,7 +30,7 @@ namespace Lottotry.WebApi
         {
             // TODO update CORS for your env
             //services.AddCorsService("Lottotry.WebApiCorsPolicy");
-            services.AddCorsService("AllowAll");
+            services.AddCorsService("AllowReactApp");
 
             services.AddInfrastructure(_config, _env);
             services.AddControllers()
@@ -67,7 +67,7 @@ namespace Lottotry.WebApi
             app.UseSerilogRequestLogging();
             app.UseRouting();
 
-            app.UseCors("Lottotry.WebApiCorsPolicy");
+            app.UseCors("AllowReactApp");
 
             app.UseErrorHandlingMiddleware();
             app.UseEndpoints(endpoints =>

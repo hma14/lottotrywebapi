@@ -13,6 +13,7 @@ using Lottotry.WebApi.Databases;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using Lottotry.WebApi.Domain.Users.Dtos;
+using Microsoft.AspNetCore.Cors;
 
 namespace Lottotry.WebApi.Controllers.v1
 {
@@ -29,7 +30,7 @@ namespace Lottotry.WebApi.Controllers.v1
             _config = config;
         }
 
-        [HttpPost("signup")]
+        [HttpPost("SignUp")]
         public async Task<IActionResult> SignUp([FromBody] User user)
         {
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash); // Install BCrypt.Net

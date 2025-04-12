@@ -27,7 +27,7 @@ namespace Lottotry.WebApi
                 .AddNewtonsoftJson();
 
             // TODO update CORS for your env
-            services.AddCorsService("Lottotry.WebApiCorsPolicy");
+            services.AddCorsService("AllowReactApp");
             services.AddInfrastructure(_config, _env);
             
             services.AddApiVersioningExtension();

@@ -41,7 +41,7 @@ public class UpdateUserTests
         // Arrange
         var user = new FakeUserBuilder().Build();
         var updatedUser = new FakeUserForUpdate().Generate();
-        user.DomainEvents.Clear();
+        //user.DomainEvents.Clear();
         
         // Act
         user.Update(updatedUser);
