@@ -12,6 +12,7 @@ namespace Lottotry.WebApi
     using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
     using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
     using System;
+    using System.Text.Json;
 
     public class Startup
     {
@@ -34,7 +35,9 @@ namespace Lottotry.WebApi
 
             services.AddInfrastructure(_config, _env);
             services.AddControllers()
-                .AddNewtonsoftJson();
+                .AddNewtonsoftJson()
+                .AddJsonOptions(options =>
+                                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase); ;
             services.AddApiVersioningExtension();
             services.AddWebApiServices();
             services.AddHealthChecks();

@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using Lottotry.WebApi.Domain.Users.Dtos;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.Extensions.Logging;
 
 namespace Lottotry.WebApi.Controllers.v1
 {
@@ -23,41 +24,86 @@ namespace Lottotry.WebApi.Controllers.v1
     {
         private readonly LottotryDbContext _context;
         private readonly IConfiguration _config;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(LottotryDbContext context, IConfiguration config)
+        public AuthController(LottotryDbContext context, IConfiguration config, ILogger<AuthController> logger)
         {
             _context = context;
             _config = config;
+            _logger = logger;
         }
 
         [HttpPost("SignUp")]
         public async Task<IActionResult> SignUp([FromBody] User user)
         {
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash); // Install BCrypt.Net
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            return Ok();
+            try
+            {
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash); // Install BCrypt.Net
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering a user.");
+                if (ex.InnerException != null)
+                {
+                    _logger.LogError(ex.InnerException, "Inner exception:");
+                }
+
+                return BadRequest(new
+                {
+                    Succeeded = false,
+                    Message = "An unexpected error occurred. Please try again later.",
+                });
+
+            }
         }
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == request.Username);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
-                return Unauthorized();
-
-            var accessToken = GenerateJwtToken(user);
-            var refreshToken = GenerateRefreshToken();
-
-            user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
-            await _context.SaveChangesAsync();
-
-            return Ok(new
+            try
             {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken
-            });
+                var user = await _context.Users
+                    .Include(u => u.Email)
+                    .FirstOrDefaultAsync(u => u.Username == request.Username);
+                if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+                    return BadRequest(new
+                    {
+                        Succeeded = false,
+                        Message = "An unexpected error occurred. Please try again later.",
+                    });
+
+                var accessToken = GenerateJwtToken(user);
+                var refreshToken = GenerateRefreshToken();
+
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+                await _context.SaveChangesAsync();
+
+                return Ok(new
+                {
+                    AccessToken = accessToken,
+                    RefreshToken = refreshToken
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while login a user.");
+                if (ex.InnerException != null)
+                {
+                    _logger.LogError(ex.InnerException, "Inner exception:");
+                }
+
+                return BadRequest(new
+                {
+                    Succeeded = false,
+                    Message = "An unexpected error occurred. Please try again later.",
+                });
+
+            }
+
         }
 
         [HttpPost("refresh")]

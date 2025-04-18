@@ -13,6 +13,7 @@ using Lottotry.WebApi.Domain.Users;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
     using System.Threading;
     using System.Threading.Tasks;
+    using Lottotry.WebApi.Domain.Emails;
 
     public class LottotryDbContext : DbContext
     {
@@ -39,7 +40,14 @@ using Lottotry.WebApi.Domain.Users;
             modelBuilder.Entity<LottoNumbers>().HasKey(vf => new { vf.LottoName, vf.DrawNumber });
 
             modelBuilder.Entity<User>()
-            .HasOne(u => u.Email);          // User has one Email
+                .HasIndex(u => u.Username)
+                .IsUnique();
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Email);
+                //.WithOne() // or .WithOne(e => e.User) if bidirectional
+                //.HasForeignKey<Email>(e => e.Id); // assuming Email has a FK to User
+
         }
     }
 }

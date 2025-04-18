@@ -44,6 +44,9 @@ namespace Lottotry.WebApi
             //Initialize Logger
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(config)
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             try
