@@ -69,11 +69,14 @@ namespace Lottotry.WebApi.Controllers.v1
                     .Include(u => u.Email)
                     .FirstOrDefaultAsync(u => u.Username == request.Username);
                 if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+                {
+                    _logger.LogError("Unauthorized: username was not found or password was not matching");
                     return BadRequest(new
                     {
                         Succeeded = false,
                         Message = "An unexpected error occurred. Please try again later.",
                     });
+                }
 
                 var accessToken = GenerateJwtToken(user);
                 var refreshToken = GenerateRefreshToken();
