@@ -41,7 +41,7 @@ namespace Lottotry.WebApi.Controllers.v1
                 user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash); // Install BCrypt.Net
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
-                return Ok();
+                return Ok(new { success = true });
             }
             catch (Exception ex)
             {
@@ -87,6 +87,7 @@ namespace Lottotry.WebApi.Controllers.v1
 
                 return Ok(new
                 {
+                    success = true,
                     AccessToken = accessToken,
                     RefreshToken = refreshToken
                 });
