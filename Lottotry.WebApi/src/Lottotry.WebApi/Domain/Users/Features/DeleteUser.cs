@@ -12,7 +12,7 @@ using static Lottotry.WebApi.Domain.BC49.Features.DeleteBC49;
 
 public static class DeleteUser
 {
-    public sealed record Command(Guid UserId) : IRequest<bool>;
+    public sealed record Command(int UserId) : IRequest<bool>;
 
     public sealed class Handler : IRequestHandler<Command, bool>
     {

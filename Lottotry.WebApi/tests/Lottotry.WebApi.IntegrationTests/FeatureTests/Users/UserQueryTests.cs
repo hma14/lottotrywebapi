@@ -28,7 +28,7 @@ public class UserQueryTests : TestBase
         //user.LastName.Should().Be(userOne.LastName);
         user.Username.Should().Be(userOne.Username);
         //user.Identifier.Should().Be(userOne.Identifier);
-        user.Email.Should().Be(userOne.Email.Value);
+        user.Email.Should().Be(userOne.Email);
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class UserQueryTests : TestBase
     {
         // Arrange
         var testingServiceScope = new TestingServiceScope();
-        var badId = Guid.NewGuid();
+        var badId = 9;
 
         // Act
         var query = new GetUser.Query(badId);

@@ -34,6 +34,6 @@ public class UpdateUserCommandTests : TestBase
         //updatedUser?.LastName.Should().Be(updatedUserDto.LastName);
         updatedUser?.Username.Should().Be(updatedUserDto.Username);
         //updatedUser?.Identifier.Should().Be(updatedUserDto.Identifier);
-        updatedUser?.Email.Value.Should().Be(updatedUserDto.Email);
+        updatedUser?.Email.Should().Be(updatedUserDto.Email);
     }
 }

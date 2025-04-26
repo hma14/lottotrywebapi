@@ -7,6 +7,7 @@ namespace Lottotry.WebApi.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+#if false
             migrationBuilder.CreateTable(
                 name: "BC49",
                 columns: table => new
@@ -174,32 +175,29 @@ namespace Lottotry.WebApi.Migrations
                 table: "Numbers",
                 column: "LottoTypeId");
 
+
             migrationBuilder.CreateIndex(
                 name: "IX_Users_EmailId",
                 table: "Users",
                 column: "EmailId");
-
+#endif
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmailId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Email= table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ConfirmationToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsConfirmed = table.Column<bool>(type: "bit", nullable: true),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_Email_EmailId",
-                        column: x => x.EmailId,
-                        principalTable: "Email",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
         }
@@ -208,6 +206,7 @@ namespace Lottotry.WebApi.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+#if true
             migrationBuilder.DropTable(
                 name: "BC49");
 
@@ -237,6 +236,9 @@ namespace Lottotry.WebApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Email");
+
+#endif
         }
+
     }
 }

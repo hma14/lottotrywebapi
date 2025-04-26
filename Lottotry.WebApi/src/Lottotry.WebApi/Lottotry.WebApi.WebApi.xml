@@ -262,7 +262,7 @@
             Gets a list of all Users.
             </summary>
         </member>
-        <member name="M:Lottotry.WebApi.Controllers.v1.UsersController.GetUser(System.Guid)">
+        <member name="M:Lottotry.WebApi.Controllers.v1.UsersController.GetUser(System.Int32)">
             <summary>
             Gets a single User by ID.
             </summary>
@@ -272,12 +272,12 @@
             Creates a new User record.
             </summary>
         </member>
-        <member name="M:Lottotry.WebApi.Controllers.v1.UsersController.UpdateUser(System.Guid,Lottotry.WebApi.Domain.Users.Dtos.UserForUpdateDto)">
+        <member name="M:Lottotry.WebApi.Controllers.v1.UsersController.UpdateUser(System.Int32,Lottotry.WebApi.Domain.Users.Dtos.UserForUpdateDto)">
             <summary>
             Updates an entire existing User.
             </summary>
         </member>
-        <member name="M:Lottotry.WebApi.Controllers.v1.UsersController.DeleteUser(System.Guid)">
+        <member name="M:Lottotry.WebApi.Controllers.v1.UsersController.DeleteUser(System.Int32)">
             <summary>
             Deletes an existing User record.
             </summary>

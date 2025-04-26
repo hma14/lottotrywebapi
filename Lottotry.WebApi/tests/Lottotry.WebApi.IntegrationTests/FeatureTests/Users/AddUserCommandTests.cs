@@ -33,6 +33,6 @@ public class AddUserCommandTests : TestBase
         //userCreated?.LastName.Should().Be(userOne.LastName);
         userCreated?.Username.Should().Be(userOne.Username);
         //userCreated?.Identifier.Should().Be(userOne.Identifier);
-        userCreated?.Email.Value.Should().Be(userOne.Email);
+        userCreated?.Email.Should().Be(userOne.Email);
     }
 }

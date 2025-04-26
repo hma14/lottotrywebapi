@@ -36,7 +36,7 @@ public class DeleteUserCommandTests : TestBase
     {
         // Arrange
         var testingServiceScope = new TestingServiceScope();
-        var badId = Guid.NewGuid();
+        var badId = 9;
 
         // Act
         var command = new DeleteUser.Command(badId);

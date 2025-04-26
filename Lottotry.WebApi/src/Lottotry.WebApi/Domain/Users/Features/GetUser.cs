@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 public static class GetUser
 {
-    public sealed record Query(Guid UserId) : IRequest<UserDto>;
+    public sealed record Query(int UserId) : IRequest<UserDto>;
 
     public sealed class Handler(LottotryDbContext dbContext)
         : IRequestHandler<Query, UserDto>

@@ -43,11 +43,7 @@ using Lottotry.WebApi.Domain.Users;
                 .HasIndex(u => u.Username)
                 .IsUnique();
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Email);
-                //.WithOne() // or .WithOne(e => e.User) if bidirectional
-                //.HasForeignKey<Email>(e => e.Id); // assuming Email has a FK to User
-
+            modelBuilder.Entity<User>().ToTable("Users", schema: "dbo");
         }
     }
 }

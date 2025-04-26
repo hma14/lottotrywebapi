@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 public static class UpdateUser
 {
-    public sealed record Command(Guid UserId, UserForUpdateDto UpdatedUserData) : IRequest<bool>;
+    public sealed record Command(int UserId, UserForUpdateDto UpdatedUserData) : IRequest<bool>;
 
     public sealed class Handler(LottotryDbContext dbContext)
         : IRequestHandler<Command, bool>

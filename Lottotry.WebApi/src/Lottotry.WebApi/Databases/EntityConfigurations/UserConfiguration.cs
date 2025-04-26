@@ -16,8 +16,8 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         // Property Marker -- Deleting or modifying this comment could cause incomplete relationship scaffolding
 
-        builder.Property(x => x.Email)
-            .HasConversion(x => x.Value, x => new Email(x));
+        //builder.Property(x => x.Email)
+        //    .HasConversion(x => x.Value, x => new Email(x));
         
         // example for a more complex value object
         // builder.OwnsOne(x => x.PhysicalAddress, opts =>

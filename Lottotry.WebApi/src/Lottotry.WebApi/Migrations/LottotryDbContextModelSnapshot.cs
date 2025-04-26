@@ -284,40 +284,7 @@ namespace Lottotry.WebApi.Migrations
                     b.ToTable("Numbers");
                 });
 
-            modelBuilder.Entity("Lottotry.WebApi.Domain.Users.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("EmailId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("RefreshTokenExpiryTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmailId");
-
-                    b.HasIndex("Username")
-                        .IsUnique()
-                        .HasFilter("[Username] IS NOT NULL");
-
-                    b.ToTable("Users");
-                });
+            
 
             modelBuilder.Entity("Lottotry.WebApi.Domain.Numbers.Number", b =>
                 {
@@ -341,6 +308,46 @@ namespace Lottotry.WebApi.Migrations
                 {
                     b.Navigation("Numbers");
                 });
+
+            modelBuilder.Entity("Lottotry.WebApi.Domain.Users.User", b =>
+            {
+                b.Property<int>("Id")
+                    //.ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                b.Property<string?>("Email")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("PasswordHash")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("RefreshToken")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<DateTime>("RefreshTokenExpiryTime")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("Role")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Username")
+                    .HasColumnType("nvarchar(450)");
+
+                b.Property<string>("ConfirmationToken")
+                    .HasColumnType("nvarchar(max)");
+                b.Property<bool>("IsConfirmed")
+                    .HasColumnType("bit");
+
+                b.HasKey("Id");
+
+                //b.HasIndex("EmailId");
+
+                b.HasIndex("Username")
+                    .IsUnique()
+                    .HasFilter("[Username] IS NOT NULL");
+
+                b.ToTable("Users");
+            });
 #pragma warning restore 612, 618
         }
     }

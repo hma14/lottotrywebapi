@@ -24,11 +24,13 @@
   <ItemGroup>
     <Compile Remove="Dtos\NumberDto.cs" />
     <Compile Remove="Migrations\20211107204011_Add_Table_LottoNumbers.Designer.cs" />
+    <Compile Remove="Migrations\20250417180531_database uniqueness constraint.cs" />
+    <Compile Remove="Migrations\20250417180531_database uniqueness constraint.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoBogus" Version="2.13.1" />
-    <PackageReference Include="BCrypt.Net" Version="0.1.0" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Bogus" Version="33.0.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />

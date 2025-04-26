@@ -44,7 +44,7 @@ public class CreateUserTests
         var user = User.Create(userToCreate);
 
         // Assert
-        user.DomainEvents.Count.Should().Be(1);
-        user.DomainEvents.FirstOrDefault().Should().BeOfType(typeof(UserCreated));
+        user.Should().Be(1);
+        user.Should().BeOfType(typeof(UserCreated));
     }
 }

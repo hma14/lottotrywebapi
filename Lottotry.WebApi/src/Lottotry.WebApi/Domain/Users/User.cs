@@ -10,12 +10,19 @@ using Lottotry.WebApi.Domain.Emails;
 using System.Collections.Generic;
 using System;
 
-public class User : BaseEntity
+public class User 
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
+
+    [Required]
     public string Username { get;  set; }
 
-   public Email Email { get;  set; }
+    [Required]
+    //[EmailAddress]
+    public string Email { get;  set; }
 
+    [Required]
     public string PasswordHash { get;  set; }
 
     public string Role { get; set; }
@@ -23,8 +30,10 @@ public class User : BaseEntity
     public string RefreshToken { get; set; }
     public DateTime RefreshTokenExpiryTime { get; set; }
 
-    //[NotMapped]
-    //public List<IDomainEvent> DomainEvents { get; set; }
+
+    public string ConfirmationToken { get; set; }
+    public bool IsConfirmed { get; set; }
+
 
     // Add Props Marker -- Deleting this comment will cause the add props utility to be incomplete
 
@@ -34,7 +43,7 @@ public class User : BaseEntity
         var newUser = new User();
 
         newUser.Username = userForCreation.Username;
-        newUser.Email = Email.Of(userForCreation.Email);
+        newUser.Email = userForCreation.Email;
         newUser.PasswordHash = userForCreation.PasswordHash;
         newUser.Role = userForCreation.Role;
 
@@ -46,7 +55,7 @@ public class User : BaseEntity
     public User Update(UserForUpdate userForUpdate)
     {
         Username = userForUpdate.Username;
-        Email = Email.Of(userForUpdate.Email);
+        Email = userForUpdate.Email;
         PasswordHash = userForUpdate.PasswordHash;
         Role = userForUpdate.Role;
 

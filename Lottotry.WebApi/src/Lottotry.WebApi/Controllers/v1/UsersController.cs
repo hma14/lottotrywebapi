@@ -61,7 +61,7 @@ public sealed class UsersController(IMediator mediator): ControllerBase
     /// Gets a single User by ID.
     /// </summary>
     [HttpGet("{userId:guid}", Name = "GetUser")]
-    public async Task<ActionResult<UserDto>> GetUser(Guid userId)
+    public async Task<ActionResult<UserDto>> GetUser(int userId)
     {
         var query = new GetUser.Query(userId);
         var queryResponse = await mediator.Send(query);
@@ -88,7 +88,7 @@ public sealed class UsersController(IMediator mediator): ControllerBase
     /// Updates an entire existing User.
     /// </summary>
     [HttpPut("{userId:guid}", Name = "UpdateUser")]
-    public async Task<IActionResult> UpdateUser(Guid userId, UserForUpdateDto user)
+    public async Task<IActionResult> UpdateUser(int userId, UserForUpdateDto user)
     {
         var command = new UpdateUser.Command(userId, user);
         await mediator.Send(command);
@@ -100,7 +100,7 @@ public sealed class UsersController(IMediator mediator): ControllerBase
     /// Deletes an existing User record.
     /// </summary>
     [HttpDelete("{userId:guid}", Name = "DeleteUser")]
-    public async Task<ActionResult> DeleteUser(Guid userId)
+    public async Task<ActionResult> DeleteUser(int userId)
     {
         var command = new DeleteUser.Command(userId);
         await mediator.Send(command);

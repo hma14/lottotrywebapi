@@ -47,7 +47,7 @@ public class UpdateUserTests
         user.Update(updatedUser);
 
         // Assert
-        user.DomainEvents.Count.Should().Be(1);
-        user.DomainEvents.FirstOrDefault().Should().BeOfType(typeof(UserUpdated));
+        user.Should().Be(1);
+        user.Should().BeOfType(typeof(UserUpdated));
     }
 }

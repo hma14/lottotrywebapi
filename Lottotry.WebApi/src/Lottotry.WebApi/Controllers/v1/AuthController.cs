@@ -15,6 +15,8 @@ using System.Security.Cryptography;
 using Lottotry.WebApi.Domain.Users.Dtos;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Logging;
+using System.Linq;
+using Lottotry.WebApi.Services;
 
 namespace Lottotry.WebApi.Controllers.v1
 {
@@ -25,23 +27,107 @@ namespace Lottotry.WebApi.Controllers.v1
         private readonly LottotryDbContext _context;
         private readonly IConfiguration _config;
         private readonly ILogger<AuthController> _logger;
+        private readonly IEmailService _emailService;
 
-        public AuthController(LottotryDbContext context, IConfiguration config, ILogger<AuthController> logger)
+        public AuthController(LottotryDbContext context, 
+                              IConfiguration config, 
+                              ILogger<AuthController> logger, 
+                              IEmailService emailService)
         {
             _context = context;
             _config = config;
             _logger = logger;
+            _emailService = emailService;
+        }
+#if false
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new { Success = false, message = "Invalid input" });
+
+            // Check if user exists
+            if (_context.Users.Any(u => u.Email == model.Email))
+                return BadRequest(new { Success = false, message = "Email already registered" });
+
+            // Generate confirmation token
+            var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
+
+            var user = new User
+            {
+                Email = model.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password),
+                ConfirmationToken = token,
+                IsConfirmed = false
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            // Send confirmation email
+            var confirmationLink = $"https://your-frontend.com/confirm?token={token}";
+            await _emailService.SendEmailAsync(
+                model.Email,
+                "Confirm Your Email",
+                $"Please confirm your email by clicking <a href='{confirmationLink}'>here</a>");
+
+            return Ok(new { Success = true });
+        }
+#endif
+
+
+        [HttpGet("confirm")]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string token)
+        {
+            if (string.IsNullOrEmpty(token))
+                return BadRequest(new { Success = false, message = "Invalid token" });
+
+            var user = _context.Users.FirstOrDefault(u => u.ConfirmationToken == token);
+            if (user == null)
+                return BadRequest(new { Success = false, message = "Invalid or expired token" });
+
+            if (user.IsConfirmed)
+                return Ok(new { Success = true, message = "Email already confirmed" });
+
+            user.IsConfirmed = true;
+            user.ConfirmationToken = null;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Success = true });
         }
 
-        [HttpPost("SignUp")]
+
+        [HttpPost("signup")]
         public async Task<IActionResult> SignUp([FromBody] User user)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(new { Success = false, message = "Invalid input" });
+
+            // Check if user exists
+            //if (_context.Users.Any(u => u.Email == user.Email))
+            if (_context.Users.Any(u => u.Username == user.Username))
+                return BadRequest(new { Success = false, message = "Username already registered" });
+
+            // Generate confirmation token
+            var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
+            user.ConfirmationToken = token;
+            user.IsConfirmed = false;
+
             try
             {
                 user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash); // Install BCrypt.Net
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
-                return Ok(new { success = true });
+
+                // Send confirmation email
+                //var confirmationLink = $"https://localhost:5006/confirm?token={token}";
+                var confirmationLink = _config["ConfirmationLink"] + $"?token ={token}";
+                await _emailService.SendEmailAsync(
+                    user.Email,
+                    "Confirm Your Email",
+                    $"Please confirm your email by clicking <a href='{confirmationLink}'>here</a>");
+
+                return Ok(new { Success = true });
             }
             catch (Exception ex)
             {
@@ -53,14 +139,14 @@ namespace Lottotry.WebApi.Controllers.v1
 
                 return BadRequest(new
                 {
-                    Succeeded = false,
+                    Success = false,
                     Message = "An unexpected error occurred. Please try again later.",
                 });
 
             }
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             try
@@ -73,7 +159,7 @@ namespace Lottotry.WebApi.Controllers.v1
                     _logger.LogError("Unauthorized: username was not found or password was not matching");
                     return BadRequest(new
                     {
-                        Succeeded = false,
+                        Success = false,
                         Message = "An unexpected error occurred. Please try again later.",
                     });
                 }
@@ -87,7 +173,8 @@ namespace Lottotry.WebApi.Controllers.v1
 
                 return Ok(new
                 {
-                    success = true,
+                    
+                    Success = true,
                     AccessToken = accessToken,
                     RefreshToken = refreshToken
                 });
@@ -102,7 +189,7 @@ namespace Lottotry.WebApi.Controllers.v1
 
                 return BadRequest(new
                 {
-                    Succeeded = false,
+                    Success = false,
                     Message = "An unexpected error occurred. Please try again later.",
                 });
 
@@ -172,6 +259,13 @@ namespace Lottotry.WebApi.Controllers.v1
     {
         public string Username { get; set; }
         public string Password { get; set; }
+    }
+
+    public class RegisterModel
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+
     }
 }
 
