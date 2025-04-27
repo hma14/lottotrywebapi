@@ -1,6 +1,7 @@
 namespace Lottotry.WebApi.Extensions.Services
 {
     using Lottotry.WebApi.Databases;
+    using Lottotry.WebApi.Services;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,7 @@ namespace Lottotry.WebApi.Extensions.Services
                 
                         
             }
-
+            services.AddScoped<IEmailService, EmailService>();
             services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
 
 

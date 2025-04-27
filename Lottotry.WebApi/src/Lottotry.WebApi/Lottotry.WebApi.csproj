@@ -78,6 +78,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="SqlScript\" />
   </ItemGroup>
 
 </Project>

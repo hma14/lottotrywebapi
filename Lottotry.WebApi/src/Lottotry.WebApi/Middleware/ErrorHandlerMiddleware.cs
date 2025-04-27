@@ -3,6 +3,7 @@ namespace Lottotry.WebApi.Middleware
     using Lottotry.WebApi.Exceptions;
     using Lottotry.WebApi.Wrappers;
     using Microsoft.AspNetCore.Http;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -29,10 +30,10 @@ namespace Lottotry.WebApi.Middleware
             {
                 var response = context.Response;
                 response.ContentType = "application/json";
-                var responseModel = new Response<string>() { Succeeded = false, Message = error?.Message };
+                var responseModel = new Response<string>() { Success = false, Message = error?.Message };
 
                 switch (error)
-            {
+                {
                     case ConflictException:
                         response.StatusCode = (int)HttpStatusCode.Conflict;
                         break;
@@ -56,7 +57,8 @@ namespace Lottotry.WebApi.Middleware
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;
                 }
-                var result = JsonSerializer.Serialize(responseModel);
+                // var result = JsonSerializer.Serialize(responseModel);
+                var result = JsonConvert.SerializeObject(responseModel);
 
                 await response.WriteAsync(result);
             }

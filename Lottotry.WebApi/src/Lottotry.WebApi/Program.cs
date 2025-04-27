@@ -93,7 +93,10 @@ namespace Lottotry.WebApi
                         services.AddAuthorization();
 
                         // Add controllers or other services as needed
-                        services.AddControllers();
+                        services.AddControllers().AddNewtonsoftJson(options =>
+                        {
+                            options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+                        });
                     })
                     .Configure(app =>
                     {

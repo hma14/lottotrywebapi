@@ -1,5 +1,6 @@
 namespace Lottotry.WebApi.Wrappers
 {
+    using Newtonsoft.Json;
     using System.Collections.Generic;
 
     public class Response<T>
@@ -9,18 +10,25 @@ namespace Lottotry.WebApi.Wrappers
         }
         public Response(T data, string message = null)
         {
-            Succeeded = true;
+            Success = true;
             Message = message;
             Data = data;
         }
         public Response(string message)
         {
-            Succeeded = false;
+            Success = false;
             Message = message;
         }
-        public bool Succeeded { get; set; }
+        [JsonProperty("succeeded")]
+        public bool Success { get; set; }
+
+        [JsonProperty("message")]
         public string Message { get; set; }
+
+        [JsonProperty("errors")]
         public List<string> Errors { get; set; }
+
+        [JsonProperty("data")]
         public T Data { get; set; }
     }
 }

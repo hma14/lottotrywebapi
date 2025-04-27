@@ -1,18 +1,16 @@
 namespace Lottotry.WebApi
 {
+    using Lottotry.WebApi.Extensions.Application;
+    using Lottotry.WebApi.Extensions.Services;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.DataProtection;
+    using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+    using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Lottotry.WebApi.Extensions.Services;
-    using Lottotry.WebApi.Extensions.Application;
     using Serilog;
-    using Microsoft.AspNetCore.DataProtection;
     using System.IO;
-    using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
-    using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
-    using System;
-    using System.Text.Json;
 
     public class Startup
     {
@@ -35,9 +33,10 @@ namespace Lottotry.WebApi
 
             services.AddInfrastructure(_config, _env);
             services.AddControllers()
-                .AddNewtonsoftJson()
-                .AddJsonOptions(options =>
-                                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase); ;
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+                });
             services.AddApiVersioningExtension();
             services.AddWebApiServices();
             services.AddHealthChecks();

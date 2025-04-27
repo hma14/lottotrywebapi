@@ -34,7 +34,10 @@ namespace Lottotry.WebApi
             services.AddCorsService("AllowReactApp");
             services.AddInfrastructure(_config, _env);
             services.AddControllers()
-                .AddNewtonsoftJson();
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+                });
             services.AddApiVersioningExtension();
             services.AddWebApiServices();
             services.AddHealthChecks();

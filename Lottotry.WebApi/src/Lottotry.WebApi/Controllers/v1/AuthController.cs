@@ -152,7 +152,6 @@ namespace Lottotry.WebApi.Controllers.v1
             try
             {
                 var user = await _context.Users
-                    .Include(u => u.Email)
                     .FirstOrDefaultAsync(u => u.Username == request.Username);
                 if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
                 {
