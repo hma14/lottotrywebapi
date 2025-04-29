@@ -39,59 +39,25 @@ namespace Lottotry.WebApi.Controllers.v1
             _logger = logger;
             _emailService = emailService;
         }
-#if false
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(new { Success = false, message = "Invalid input" });
-
-            // Check if user exists
-            if (_context.Users.Any(u => u.Email == model.Email))
-                return BadRequest(new { Success = false, message = "Email already registered" });
-
-            // Generate confirmation token
-            var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
-
-            var user = new User
-            {
-                Email = model.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password),
-                ConfirmationToken = token,
-                IsConfirmed = false
-            };
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            // Send confirmation email
-            var confirmationLink = $"https://your-frontend.com/confirm?token={token}";
-            await _emailService.SendEmailAsync(
-                model.Email,
-                "Confirm Your Email",
-                $"Please confirm your email by clicking <a href='{confirmationLink}'>here</a>");
-
-            return Ok(new { Success = true });
-        }
-#endif
 
 
         [HttpGet("confirm")]
         public async Task<IActionResult> ConfirmEmail([FromQuery] string token)
         {
             if (string.IsNullOrEmpty(token))
-                return BadRequest(new { Success = false, message = "Invalid token" });
+                return BadRequest(new { Success = false, Message = "Invalid token" });
 
             var user = _context.Users.FirstOrDefault(u => u.ConfirmationToken == token);
             if (user == null)
-                return BadRequest(new { Success = false, message = "Invalid or expired token" });
+                return BadRequest(new { Success = false, Message = "Invalid or expired token" });
 
             if (user.IsConfirmed)
-                return Ok(new { Success = true, message = "Email already confirmed" });
+                return Ok(new { Success = true, Message = "Email already confirmed" });
 
             user.IsConfirmed = true;
-            user.ConfirmationToken = null;
-            await _context.SaveChangesAsync();
+            //user.ConfirmationToken = null;
+            await _context.SaveChangesAsync(); 
+
 
             return Ok(new { Success = true });
         }
@@ -101,15 +67,16 @@ namespace Lottotry.WebApi.Controllers.v1
         public async Task<IActionResult> SignUp([FromBody] User user)
         {
             if (!ModelState.IsValid)
-                return BadRequest(new { Success = false, message = "Invalid input" });
+                return BadRequest(new { Success = false, Message = "Invalid input" });
 
             // Check if user exists
-            //if (_context.Users.Any(u => u.Email == user.Email))
-            if (_context.Users.Any(u => u.Username == user.Username))
-                return BadRequest(new { Success = false, message = "Username already registered" });
+            if (_context.Users.Any(u => u.Email == user.Email))
+            //if (_context.Users.Any(u => u.Username == user.Username))
+                return BadRequest(new { Success = false, Message = "Username already registered" });
 
             // Generate confirmation token
             var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
+            
             user.ConfirmationToken = token;
             user.IsConfirmed = false;
 
@@ -120,8 +87,8 @@ namespace Lottotry.WebApi.Controllers.v1
                 await _context.SaveChangesAsync();
 
                 // Send confirmation email
-                //var confirmationLink = $"https://localhost:5006/confirm?token={token}";
-                var confirmationLink = _config["ConfirmationLink"] + $"?token ={token}";
+                var encodedToken = System.Net.WebUtility.UrlEncode(token);
+                var confirmationLink = _config["ConfirmationLink"] + $"?token={encodedToken}";
                 await _emailService.SendEmailAsync(
                     user.Email,
                     "Confirm Your Email",
@@ -152,7 +119,7 @@ namespace Lottotry.WebApi.Controllers.v1
             try
             {
                 var user = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Username == request.Username);
+                    .FirstOrDefaultAsync(u => u.Email == request.Email);
                 if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
                 {
                     _logger.LogError("Unauthorized: username was not found or password was not matching");
@@ -256,15 +223,9 @@ namespace Lottotry.WebApi.Controllers.v1
 
     public class LoginRequest
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
-    }
-
-    public class RegisterModel
-    {
         public string Email { get; set; }
         public string Password { get; set; }
-
     }
+
 }
 
