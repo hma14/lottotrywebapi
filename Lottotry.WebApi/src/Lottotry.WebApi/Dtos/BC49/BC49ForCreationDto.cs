@@ -7,7 +7,7 @@ namespace Lottotry.WebApi.Dtos.BC49
     public class BC49ForCreationDto : BC49ForManipulationDto
     {
 
-
+        public int DrawNumber { get; set; }
         // add-on property marker - Do Not Delete This Comment
     }
 }

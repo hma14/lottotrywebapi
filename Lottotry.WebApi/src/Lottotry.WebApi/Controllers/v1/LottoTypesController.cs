@@ -75,6 +75,8 @@ namespace Lottotry.WebApi.Controllers
         {
             var query = new GetLottoType.LottoTypeQuery(id);
             var queryResponse = await _mediator.Send(query);
+            if (queryResponse == null)
+                return NotFound();
 
             return Ok(queryResponse);
         }

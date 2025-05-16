@@ -15,6 +15,7 @@ namespace Lottotry.WebApi.Domain.Numbers.Features
     using System.Collections.Generic;
     using System;
     using System.Linq;
+    using Lottotry.WebApi.Extensions.Services;
 
     public static class AddNumberList
     {
@@ -34,17 +35,24 @@ namespace Lottotry.WebApi.Domain.Numbers.Features
         {
             private readonly LottotryDbContext _db;
             private readonly IMapper _mapper;
+            private readonly ILottoTypeService _lottoTypeService;
 
-            public Handler(LottotryDbContext db, IMapper mapper)
+            public Handler(LottotryDbContext db, IMapper mapper, ILottoTypeService lottoTypeService)
             {
                 _mapper = mapper;
                 _db = db;
+                _lottoTypeService = lottoTypeService;
             }
 
             public async Task<IEnumerable<NumberDto>> Handle(AddNumberListCommand request, CancellationToken cancellationToken)
             {
+                // Validate LottoTypeId
+                var lottoTypeExists = await _lottoTypeService.LottoTypeExistsAsync(request.LottoTypeId, cancellationToken);
+                if (!lottoTypeExists)
+                    throw new KeyNotFoundException($"LottoType with ID {request.LottoTypeId} not found.");
+
                 var numberList = _mapper.Map<IEnumerable<Number>>(request.NumberListToAdd);
-                numberList = numberList.ToList().Select(n => { n.LottoTypeId = request.LottoTypeId; return n; });
+                numberList = numberList.Select(n => { n.LottoTypeId = request.LottoTypeId; return n; });
 
 
                 _db.Numbers.AddRange(numberList);

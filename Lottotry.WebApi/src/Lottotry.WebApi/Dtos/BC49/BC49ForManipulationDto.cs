@@ -6,6 +6,7 @@ namespace Lottotry.WebApi.Dtos.BC49
 
     public abstract class BC49ForManipulationDto 
     {
+        
         public DateTime DrawDate { get; set; }
         public int Number1 { get; set; }
         public int Number2 { get; set; }

@@ -22,10 +22,16 @@ public class AddNumberListTests : TestBase
         var fakeNumberList = new List<NumberForCreationDto> {new FakeNumberForCreationDto { }.Generate()};
 
         // Act
-        var route = ApiRoutes.Numbers.Create;
+        var route = ApiRoutes.Numbers.AddNumberList;
         var result = await _client.PostJsonRequestAsync($"{route}?lottotypeid={fakeLottoType.Id}", fakeNumberList);
 
         // Assert
+        if (result.StatusCode != HttpStatusCode.Created)
+        {
+            var errorContent = await result.Content.ReadAsStringAsync();
+            Console.WriteLine($"Error: {result.StatusCode} - {errorContent}");
+            Assert.Fail($"Request failed: {errorContent}");
+        }
         result.StatusCode.Should().Be(HttpStatusCode.Created);
     }
     [Test]
@@ -35,7 +41,7 @@ public class AddNumberListTests : TestBase
         var fakeNumberList = new List<NumberForCreationDto> {new FakeNumberForCreationDto { }.Generate()};
 
         // Act
-        var route = ApiRoutes.Numbers.Create;
+        var route = ApiRoutes.Numbers.AddNumberList;
         var result = await _client.PostJsonRequestAsync($"{route}?lottotypeid={Guid.NewGuid()}", fakeNumberList);
 
         // Assert
@@ -48,9 +54,17 @@ public class AddNumberListTests : TestBase
         var fakeNumberList = new List<NumberForCreationDto> {new FakeNumberForCreationDto { }.Generate()};
 
         // Act
-        var result = await _client.PostJsonRequestAsync(ApiRoutes.Numbers.Create, fakeNumberList);
+        var result = await _client.PostJsonRequestAsync(ApiRoutes.Numbers.AddNumberList, fakeNumberList);
 
         // Assert
+        
+       
+        if (result.StatusCode == HttpStatusCode.BadRequest)
+        {
+            var errorContent = await result.Content.ReadAsStringAsync();
+            Console.WriteLine($"Error: {result.StatusCode} - {errorContent}");
+            //Assert.Fail($"Request failed: {errorContent}");
+        }
         result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 }

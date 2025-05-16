@@ -22,6 +22,7 @@
     <None Remove="Migrations_bak\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Databases\ApplicationDbContext.cs" />
     <Compile Remove="Dtos\NumberDto.cs" />
     <Compile Remove="Migrations\20211107204011_Add_Table_LottoNumbers.Designer.cs" />
     <Compile Remove="Migrations\20250417180531_database uniqueness constraint.cs" />
@@ -49,7 +50,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.6" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+    
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.6">
       <PrivateAssets>all</PrivateAssets>
@@ -72,8 +73,8 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="5.0.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.7.0" />
-    <PackageReference Include="System.Runtime" Version="4.3.1" />
-    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
+   
+   
   </ItemGroup>
 
   <ItemGroup>

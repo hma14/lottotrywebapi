@@ -7,6 +7,7 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.Lotto649
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Net;
+    using System;
 
     public class CreateLotto649Tests : TestBase
     {
@@ -21,6 +22,12 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.Lotto649
             var result = await _client.PostJsonRequestAsync(route, fakeLotto649);
 
             // Assert
+            if (result.StatusCode != HttpStatusCode.Created)
+            {
+                var errorContent = await result.Content.ReadAsStringAsync();
+                Console.WriteLine($"Error: {result.StatusCode} - {errorContent}");
+                Assert.Fail($"Request failed: {errorContent}");
+            }
             result.StatusCode.Should().Be((HttpStatusCode)201);
         }
     }

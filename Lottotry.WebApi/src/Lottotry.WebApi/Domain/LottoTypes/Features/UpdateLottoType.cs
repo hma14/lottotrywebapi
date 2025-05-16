@@ -51,7 +51,20 @@ namespace Lottotry.WebApi.Domain.LottoTypes.Features
 
                 _mapper.Map(request.LottoTypeToUpdate, lottoTypeToUpdate);
 
-                await _db.SaveChangesAsync(cancellationToken);
+                _db.Entry(lottoTypeToUpdate).State = EntityState.Modified;
+
+                try
+                {
+                    await _db.SaveChangesAsync(cancellationToken);
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    // Check if the entity still exists
+                    var exists = await _db.LottoTypes.AnyAsync(l => l.Id == request.Id, cancellationToken);
+                    if (!exists)
+                        throw new KeyNotFoundException($"LottoType with ID {request.Id} was deleted during the operation.");
+                    throw; // Re-throw for other concurrency issues
+                }
 
                 return true;
             }

@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <Compile Remove="FakesAssemblies\**" />
+    <Compile Remove="FunctionalTests\LottoNumbers\**" />
     <EmbeddedResource Remove="FakesAssemblies\**" />
+    <EmbeddedResource Remove="FunctionalTests\LottoNumbers\**" />
     <None Remove="FakesAssemblies\**" />
+    <None Remove="FunctionalTests\LottoNumbers\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -25,14 +25,14 @@ namespace Lottotry.WebApi.IntegrationTests
     public class TestingServiceScope
     {
         private readonly IServiceScope _scope;
-        public ApplicationDbContext DbContext { get; }
+        public LottotryDbContext DbContext { get; }
 
         public TestingServiceScope()
         {
             var services = new ServiceCollection();
 
             // Add an in-memory database for testing
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<LottotryDbContext>(options =>
                 options.UseInMemoryDatabase("TestDb"));
 
             // Add MediatR or other services if used in your project
@@ -40,7 +40,7 @@ namespace Lottotry.WebApi.IntegrationTests
 
             var provider = services.BuildServiceProvider();
             _scope = provider.CreateScope();
-            DbContext = _scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            DbContext = _scope.ServiceProvider.GetRequiredService<LottotryDbContext>();
         }
 
         public async Task InsertAsync<T>(T entity) where T : class
@@ -55,7 +55,7 @@ namespace Lottotry.WebApi.IntegrationTests
             await DbContext.SaveChangesAsync();
         }
 
-        public async Task<T> ExecuteDbContextAsync<T>(Func<ApplicationDbContext, Task<T>> operation)
+        public async Task<T> ExecuteDbContextAsync<T>(Func<LottotryDbContext, Task<T>> operation)
         {
             return await operation(DbContext);
         }

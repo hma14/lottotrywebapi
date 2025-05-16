@@ -4,14 +4,16 @@ using Lottotry.WebApi.Databases;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lottotry.WebApi.Migrations
 {
     [DbContext(typeof(LottotryDbContext))]
-    partial class LottotryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250515203025_sync_changes")]
+    partial class sync_changes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

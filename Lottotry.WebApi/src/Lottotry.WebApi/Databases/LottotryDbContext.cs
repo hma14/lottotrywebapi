@@ -40,10 +40,36 @@ using Lottotry.WebApi.Domain.Users;
             modelBuilder.Entity<LottoNumbers>().HasKey(vf => new { vf.LottoName, vf.DrawNumber });
 
             modelBuilder.Entity<User>()
-                .HasIndex(u => u.Username)
+                .HasIndex(u => u.Email)
                 .IsUnique();
 
             modelBuilder.Entity<User>().ToTable("Users", schema: "dbo");
+#if true
+            modelBuilder.Entity<LottoType>(b =>
+            {
+                b.HasKey(l => l.Id);
+                b.Property(l => l.LottoName).HasColumnType("nvarchar(max)");
+            });
+
+            modelBuilder.Entity<Number>(b =>
+            {
+                b.HasKey(n => n.Id);
+                b.HasOne<LottoType>().WithMany(l => l.Numbers).HasForeignKey(n => n.LottoTypeId);
+            });
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(LottotryDbContext).Assembly);
+#else
+            modelBuilder.Entity<Number>()
+            .HasKey(n => n.Id);
+            modelBuilder.Entity<Number>()
+                .HasOne<LottoType>()
+                .WithMany()
+                .HasForeignKey(n => n.LottoTypeId);
+            modelBuilder.Entity<LottoType>()
+                .HasKey(t => t.Id);
+
+#endif
         }
+
     }
 }

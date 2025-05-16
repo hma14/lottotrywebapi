@@ -61,7 +61,7 @@ namespace Lottotry.WebApi.Controllers.v1
         [ProducesResponseType(typeof(Response<>), 400)]
         [ProducesResponseType(500)]
         [Produces("application/json")]
-        [HttpGet("{drawNumber}", Name = "GetBC49Record")]
+        [HttpGet("{drawNumber}", Name = "GetBC49")]
         public async Task<ActionResult<BC49Dto>> GetBC49(int drawNumber)
         {
             // add error handling

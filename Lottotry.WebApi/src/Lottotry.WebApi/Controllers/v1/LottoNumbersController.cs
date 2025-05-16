@@ -62,7 +62,7 @@ namespace Lottotry.WebApi.Controllers.v1
         [ProducesResponseType(typeof(Response<>), 400)]
         [ProducesResponseType(500)]
         [Produces("application/json")]
-        [HttpGet("{lottoName}", Name = "GetLottoNumbersRecord")]
+        [HttpGet("{lottoName}", Name = "GetLottoNumbers")]
         public async Task<ActionResult<LottoNumbersDto>> GetLottoNumbers(int lottoName)
         {
             // add error handling

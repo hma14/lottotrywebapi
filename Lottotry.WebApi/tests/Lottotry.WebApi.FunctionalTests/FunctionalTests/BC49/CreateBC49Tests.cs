@@ -7,6 +7,8 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.BC49
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Net;
+    using System;
+    using Microsoft.EntityFrameworkCore;
 
     public class CreateBC49Tests : TestBase
     {
@@ -18,10 +20,21 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.BC49
 
             // Act
             var route = ApiRoutes.BC49.Create;
+            Console.WriteLine($"Request URL: {_client.BaseAddress}{route}");
             var result = await _client.PostJsonRequestAsync(route, fakeBC49);
 
             // Assert
+            if (result.StatusCode != HttpStatusCode.Created)
+            {
+                var errorContent = await result.Content.ReadAsStringAsync();
+                Console.WriteLine($"Error: {result.StatusCode} - {errorContent}");
+                Assert.Fail($"Request failed: {errorContent}");
+            }
             result.StatusCode.Should().Be(HttpStatusCode.Created);
+
+            // Verify database
+            //var dbBC49 = await _dbContext.BC49s.FirstOrDefaultAsync();
+            //dbBC49.Should().NotBeNull();
         }
     }
 }

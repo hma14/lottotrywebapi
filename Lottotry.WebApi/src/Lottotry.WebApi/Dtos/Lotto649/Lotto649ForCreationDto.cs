@@ -7,7 +7,7 @@ namespace Lottotry.WebApi.Dtos.Lotto649
     public class Lotto649ForCreationDto : Lotto649ForManipulationDto
     {
 
-
+        public int DrawNumber { get; set; }
         // add-on property marker - Do Not Delete This Comment
     }
 }

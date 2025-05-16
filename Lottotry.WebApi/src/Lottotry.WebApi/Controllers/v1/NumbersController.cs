@@ -188,9 +188,15 @@ namespace Lottotry.WebApi.Controllers
             var command = new AddNumberList.AddNumberListCommand(numberForCreation, lottoTypeId);
             var commandResponse = await _mediator.Send(command);
 
+#if false
             return CreatedAtRoute("GetNumber",
                 new { Id = commandResponse.Select(n => n.Id) },
                 commandResponse);
+#else
+            return CreatedAtRoute("GetNumbers",
+                new { },
+                commandResponse);
+#endif
         }
 
         // endpoint marker - do not delete this comment

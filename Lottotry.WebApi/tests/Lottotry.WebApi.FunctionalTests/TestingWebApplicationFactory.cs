@@ -1,4 +1,4 @@
-
+ 
 namespace Lottotry.WebApi.FunctionalTests
 {
     using Lottotry.WebApi.Databases;

@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Lottotry.WebApi.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "dbo");
 #if false
             migrationBuilder.CreateTable(
                 name: "BC49",
@@ -57,18 +59,6 @@ namespace Lottotry.WebApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DailyGrand_GrandNumber", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Email",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Email", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -144,6 +134,7 @@ namespace Lottotry.WebApi.Migrations
                     table.PrimaryKey("PK_LottoTypes", x => x.Id);
                 });
 
+            
 
             migrationBuilder.CreateTable(
                 name: "Numbers",
@@ -152,6 +143,7 @@ namespace Lottotry.WebApi.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Value = table.Column<int>(type: "int", nullable: false),
                     LottoTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LottoTypeId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Distance = table.Column<int>(type: "int", nullable: false),
                     IsHit = table.Column<bool>(type: "bit", nullable: false),
                     NumberofDrawsWhenHit = table.Column<int>(type: "int", nullable: false),
@@ -168,6 +160,12 @@ namespace Lottotry.WebApi.Migrations
                         principalTable: "LottoTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Numbers_LottoTypes_LottoTypeId1",
+                        column: x => x.LottoTypeId1,
+                        principalTable: "LottoTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -175,38 +173,43 @@ namespace Lottotry.WebApi.Migrations
                 table: "Numbers",
                 column: "LottoTypeId");
 
-
             migrationBuilder.CreateIndex(
-                name: "IX_Users_EmailId",
-                table: "Users",
-                column: "EmailId");
+                name: "IX_Numbers_LottoTypeId1",
+                table: "Numbers",
+                column: "LottoTypeId1");
+
 #endif
+
             migrationBuilder.CreateTable(
                 name: "Users",
+                schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false).Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email= table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ConfirmationToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsConfirmed = table.Column<bool>(type: "bit", nullable: true),
+                    IsConfirmed = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
-
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                schema: "dbo",
+                table: "Users",
+                column: "Email",
+                unique: true);
         }
-
-
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-#if true
             migrationBuilder.DropTable(
                 name: "BC49");
 
@@ -229,16 +232,11 @@ namespace Lottotry.WebApi.Migrations
                 name: "Numbers");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Users",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "LottoTypes");
-
-            migrationBuilder.DropTable(
-                name: "Email");
-
-#endif
         }
-
     }
 }

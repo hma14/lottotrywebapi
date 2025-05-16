@@ -22,7 +22,7 @@ namespace Lottotry.WebApi.FunctionalTests.FunctionalTests.BC49
             var result = await _client.DeleteRequestAsync(route);
 
             // Assert
-            result.StatusCode.Should().Be(HttpStatusCode.Created);
+            result.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }

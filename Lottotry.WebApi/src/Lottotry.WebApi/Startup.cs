@@ -67,11 +67,12 @@ namespace Lottotry.WebApi
             app.UseHttpsRedirection();
 
             app.UseSerilogRequestLogging();
-            app.UseRouting();
+            
 
             app.UseCors("AllowReactApp");
 
             app.UseErrorHandlingMiddleware();
+            app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHealthChecks("/api/health");

@@ -12,7 +12,8 @@ namespace Lottotry.WebApi.Domain.LottoTypes.Mappings
             //createmap<to this, from this>
             CreateMap<LottoType, LottoTypeDto>()
                 .ReverseMap();
-            CreateMap<LottoTypeForCreationDto, LottoType>();
+            CreateMap<LottoTypeForCreationDto, LottoType>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore()); // Prevent Id overwrite
             CreateMap<LottoTypeForUpdateDto, LottoType>()
                 .ReverseMap();
         }

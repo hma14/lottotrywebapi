@@ -48,6 +48,8 @@ public static class Numbers
         public const string GetList = $"{Base}/numbers";
         public const string GetRecord = $"{Base}/numbers/{Id}";
         public const string Create = $"{Base}/numbers";
+        public const string AddNumberList = $"{Base}/numbers/AddNumberList";
+            
         public const string Delete = $"{Base}/numbers/{Id}";
         public const string Put = $"{Base}/numbers/{Id}";
         public const string Patch = $"{Base}/numbers/{Id}";
@@ -100,12 +102,12 @@ public static class LottoTypes
         public static class BC49
         {
             public const string DrawNumber = "{drawNumber}";
-            public const string GetList = Base + "/bC49";
-            public const string GetRecord = Base + "/bC49/" + DrawNumber;
-            public const string Create = Base + "/bC49";
-            public const string Delete = Base + "/bC49/" + DrawNumber;
-            public const string Put = Base + "/bC49/" + DrawNumber;
-            public const string Patch = Base + "/bC49/" + DrawNumber;
+            public const string GetList = Base + "/bc49";
+            public const string GetRecord = Base + "/bc49/" + DrawNumber;
+            public const string Create = Base + "/bc49";
+            public const string Delete = Base + "/bc49/" + DrawNumber;
+            public const string Put = Base + "/bc49/" + DrawNumber;
+            public const string Patch = Base + "/bc49/" + DrawNumber;
         }
     }
 }

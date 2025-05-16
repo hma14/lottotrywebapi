@@ -30,7 +30,9 @@ namespace Lottotry.WebApi.Extensions.Services
                         
             }
             services.AddScoped<IEmailService, EmailService>();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
+            services.AddScoped<ILottoTypeService, LottoTypeService>();
+
+            //services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
 
 
 

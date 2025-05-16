@@ -61,7 +61,7 @@ namespace Lottotry.WebApi.Controllers.v1
         [ProducesResponseType(typeof(Response<>), 400)]
         [ProducesResponseType(500)]
         [Produces("application/json")]
-        [HttpGet("{drawNumber}", Name = "GetLottoMaxRecord")]
+        [HttpGet("{drawNumber}", Name = "GetLottoMax")]
         public async Task<ActionResult<LottoMaxDto>> GetLottoMax(int drawNumber)
         {
             // add error handling
