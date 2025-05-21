@@ -48,7 +48,7 @@ using Lottotry.WebApi.Domain.Users;
             modelBuilder.Entity<LottoType>(b =>
             {
                 b.HasKey(l => l.Id);
-                b.Property(l => l.LottoName).HasColumnType("nvarchar(max)");
+                b.Property(l => l.LottoName).HasColumnType("int");
             });
 
             modelBuilder.Entity<Number>(b =>
