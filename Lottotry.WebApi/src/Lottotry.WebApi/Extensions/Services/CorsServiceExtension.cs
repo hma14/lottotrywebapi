@@ -19,7 +19,7 @@ namespace Lottotry.WebApi.Extensions.Services
             services.AddCors(options =>
             {
                 options.AddPolicy(policyName,
-                    policy => policy.WithOrigins("http://localhost:3000")
+                    policy => policy.WithOrigins("http://ai.lottotry.com")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .WithExposedHeaders("X-Pagination"));
