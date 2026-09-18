@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using Lottotry.WebApi.Services;
+using System.Threading;
 
 namespace Lottotry.WebApi.Controllers.v1
 {
@@ -42,12 +43,12 @@ namespace Lottotry.WebApi.Controllers.v1
 
 
         [HttpGet("confirm")]
-        public async Task<IActionResult> ConfirmEmail([FromQuery] string token)
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string token, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(token))
                 return BadRequest(new { Success = false, Message = "Invalid token" });
 
-            var user = _context.Users.FirstOrDefault(u => u.ConfirmationToken == token);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.ConfirmationToken == token, cancellationToken);
             if (user == null)
                 return BadRequest(new { Success = false, Message = "Invalid or expired token" });
 
@@ -55,11 +56,12 @@ namespace Lottotry.WebApi.Controllers.v1
                 return Ok(new { Success = true, Message = "Email already confirmed" });
 
             user.IsConfirmed = true;
-            //user.ConfirmationToken = null;
-            await _context.SaveChangesAsync(); 
+            user.ConfirmationToken = null;
+            await _context.SaveChangesAsync(cancellationToken);
 
 
-            return Ok(new { Success = true });
+            //return Ok(new { Success = true });
+            return Ok("Email confirmed successfully.");
         }
 
 

@@ -21,6 +21,7 @@ namespace Lottotry.WebApi.Services
                 Host = smtpSettings["Host"],
                 Port = int.Parse(smtpSettings["Port"]),
                 EnableSsl = true,
+                UseDefaultCredentials = false,
                 Credentials = new System.Net.NetworkCredential(
                     smtpSettings["Username"],
                     smtpSettings["Password"])
