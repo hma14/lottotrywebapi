@@ -60,8 +60,8 @@ namespace Lottotry.WebApi.Controllers.v1
             await _context.SaveChangesAsync(cancellationToken);
 
 
-            //return Ok(new { Success = true });
-            return Ok("Email confirmed successfully.");
+            return Ok(new { Success = true, Message = "Email confirmed successfully." });
+            //return Ok("Email confirmed successfully.");
         }
 
 
@@ -122,7 +122,7 @@ namespace Lottotry.WebApi.Controllers.v1
             {
                 var user = await _context.Users
                     .FirstOrDefaultAsync(u => u.Email == request.Email);
-                if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+                if (user == null || !user.IsConfirmed || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
                 {
                     _logger.LogError("Unauthorized: username was not found or password was not matching");
                     return BadRequest(new
@@ -144,7 +144,9 @@ namespace Lottotry.WebApi.Controllers.v1
                     
                     Success = true,
                     AccessToken = accessToken,
-                    RefreshToken = refreshToken
+                    RefreshToken = refreshToken,
+                    user.Username,
+                    user.Role,
                 });
             }
             catch (Exception ex)
