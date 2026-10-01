@@ -121,7 +121,7 @@ namespace Lottotry.WebApi.Controllers.v1
             try
             {
                 var user = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Email == request.Email);
+                    .FirstOrDefaultAsync(u => u.Email == request.Email || u.Username == request.Email);
                 if (user == null || !user.IsConfirmed || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
                 {
                     _logger.LogError("Unauthorized: username was not found or password was not matching");
