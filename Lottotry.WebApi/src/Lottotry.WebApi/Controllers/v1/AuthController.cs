@@ -137,6 +137,7 @@ namespace Lottotry.WebApi.Controllers.v1
 
                 user.RefreshToken = refreshToken;
                 user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+                //user.RefreshTokenExpiryTime = DateTime.UtcNow.AddMinutes(3);
                 await _context.SaveChangesAsync();
 
                 return Ok(new
@@ -173,20 +174,33 @@ namespace Lottotry.WebApi.Controllers.v1
             var user = await _context.Users.SingleOrDefaultAsync(u => u.RefreshToken == request.RefreshToken);
 
             if (user == null || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
-                return Unauthorized("Invalid or expired refresh token");
+                return Unauthorized(new
+                {
+                    success = false,
+                    message = "Invalid or expired refresh token"
+                });
 
             var newAccessToken = GenerateJwtToken(user);
+#if true
+            return Ok(new
+            {
+                AccessToken = newAccessToken,
+            });
+
+#else
             var newRefreshToken = GenerateRefreshToken();
 
             user.RefreshToken = newRefreshToken;
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
             await _context.SaveChangesAsync();
 
+
             return Ok(new
             {
                 AccessToken = newAccessToken,
                 RefreshToken = newRefreshToken
             });
+#endif
         }
 
 
@@ -209,7 +223,9 @@ namespace Lottotry.WebApi.Controllers.v1
                     _config["Jwt:Audience"],
                     claims,
                     null,
-                    DateTime.UtcNow.AddHours(1))
+                    DateTime.UtcNow.AddHours(1)
+                    //DateTime.UtcNow.AddMinutes(1) // for testing
+                    )
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
